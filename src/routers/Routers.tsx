@@ -7,19 +7,29 @@ import { RoutesParamList } from "../types/RoutesParamList";
 import { Button, Text } from "react-native";
 import DrawerPage from "../components/DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
+import RouterContext from "../contexts/RouterContext";
+
 interface RoutesProps {}
 
 const Stack = createStackNavigator<RoutesParamList>();
 let drawler: DrawerLayout | null;
 
 const Routes: React.FC<RoutesProps> = ({}) => {
+  const [isModalOil, setModalOil] = React.useState<boolean>(false);
+
+  const handleOpenModalOil = () => {
+    setModalOil(true);
+  };
+
   return (
+    // <RouterContext.Provider value={{ isModalOil }}>
     <DrawerLayout
       drawerType="front"
       drawerWidth={300}
       ref={(e) => (drawler = e)}
-      renderNavigationView={DrawerPage}
-      keyboardDismissMode="on-drag"
+      renderNavigationView={() =>
+        DrawerPage({ isModalOil, handleOpenModalOil })
+      }
     >
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
@@ -62,6 +72,7 @@ const Routes: React.FC<RoutesProps> = ({}) => {
         </Stack.Navigator>
       </NavigationContainer>
     </DrawerLayout>
+    // </RouterContext.Provider>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 type Context = {
-  isOpenDrawer: boolean;
+  isModalOil: boolean;
 };
 
 const RouterContext = React.createContext<Partial<Context>>({});

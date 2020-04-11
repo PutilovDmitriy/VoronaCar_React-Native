@@ -1,5 +1,11 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ImageSourcePropType,
+} from "react-native";
 import { Car } from "../types/Car";
 import { dateFormat, urlsLogo } from "../const/index";
 
@@ -8,18 +14,27 @@ interface CarLineInfoProps {
 }
 
 const CarLineInfo: React.FC<CarLineInfoProps> = ({ carInfo }) => {
-  const selectLogo = () => {
-    carInfo.model === "K" ? urlsLogo.K : urlsLogo.Free;
-    carInfo.model === "R" ? urlsLogo.R : urlsLogo.Free;
-    carInfo.model === "W" ? urlsLogo.K : urlsLogo.Free;
-  };
+  const [img, setImg] = React.useState<ImageSourcePropType>([]);
+
+  React.useEffect(() => {
+    switch (carInfo.model) {
+      case "K":
+        setImg(urlsLogo.K);
+        break;
+      case "R":
+        setImg(urlsLogo.R);
+        break;
+      case "W":
+        setImg(urlsLogo.W);
+        break;
+      default:
+        setImg(urlsLogo.Free);
+    }
+  }, [carInfo.model]);
 
   return (
     <View style={styles.contaner}>
-      <Image
-        style={styles.logo}
-        source={require("../../public/img/renault.png")}
-      />
+      <Image style={styles.logo} source={img} />
       <Text style={styles.number}>{carInfo.number}</Text>
       <View>
         <Text>{dateFormat(new Date(carInfo.lastService), "hh:mm")}</Text>
@@ -37,13 +52,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   logo: {
     width: 40,
-    height: 40
+    height: 40,
   },
   number: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });

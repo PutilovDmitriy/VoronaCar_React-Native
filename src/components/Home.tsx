@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useContext } from "react";
 import Drawer from "react-native-drawer";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Modal, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../types/RoutesParamList";
 import { FlatList } from "react-native-gesture-handler";
@@ -43,6 +43,8 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
+  const { isModalOil } = React.useContext(RouterContext);
+
   return loading ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGren} />
@@ -63,6 +65,9 @@ const Home: React.FC<HomeProps> = ({
         )}
         keyExtractor={(item) => item.number}
       />
+      {/* <Modal visible={isModalOil}>
+        <Text>Привет</Text>
+      </Modal> */}
     </View>
   );
 };

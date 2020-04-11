@@ -9,12 +9,13 @@ import Home from "../components/Home";
 const mapStateToProps = (state: AppState) => ({
   carData: state.carReducer.info,
   loading: state.carReducer.loading,
-  error: state.carReducer.error
+  error: state.carReducer.error,
+  user: state.userReducer.info,
 });
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AppActionsType>
 ) => ({
-  getCarInfo: bindActionCreators(getCarInfo, dispatch)
+  getCarInfo: bindActionCreators(getCarInfo, dispatch),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
