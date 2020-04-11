@@ -5,11 +5,11 @@ import { colorGren } from "../const";
 
 interface Props {}
 
-const SwipeWrapper: React.FC<Props> = props => {
+const SwipeWrapper: React.FC<Props> = (props) => {
   const renderRightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
-      outputRange: [1, 0, 0, 0]
+      outputRange: [1, 0, 0, 0],
     });
     return (
       <View style={styles.rightAction}>
@@ -17,8 +17,8 @@ const SwipeWrapper: React.FC<Props> = props => {
           style={[
             styles.img,
             {
-              transform: [{ scale: trans }]
-            }
+              transform: [{ scale: trans }],
+            },
           ]}
           source={require("../../public/img/skip.png")}
         />
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: colorGren,
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   img: {
     width: 4,
     height: 4,
-    marginRight: 30
-  }
+    marginRight: 30,
+  },
 });

@@ -7,7 +7,6 @@ const Navbar: React.FC<IAppProps> = () => {
   const handlePress = () => {};
   return (
     <View style={style.navbar}>
-      <Button title="lll" onPress={handlePress} />
       <Text style={style.text}>VoronaCar</Text>
     </View>
   );
@@ -19,9 +18,9 @@ const style = StyleSheet.create({
   navbar: {
     height: 80,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     backgroundColor: "#3949ab",
-    paddingBottom: 15,
+    paddingTop: 25,
   },
   text: {
     color: "white",

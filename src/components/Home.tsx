@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useContext } from "react";
 import Drawer from "react-native-drawer";
-import { Text, Button, View, PickerItem, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../types/RoutesParamList";
 import { FlatList } from "react-native-gesture-handler";
@@ -8,6 +8,7 @@ import CarLine from "./CarLine";
 import { Car } from "../types/Car";
 import { Circle } from "react-native-animated-spinkit";
 import { colorGren } from "../const";
+import RouterContext from "../contexts/RouterContext";
 
 interface HomeProps {
   navigation: StackNavigationProp<RoutesParamList>;
@@ -42,35 +43,27 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
-  return (
-    // <Drawer
-    //   type="overlay"
-    //   content={<Text>Привет</Text>}
-    //   openDrawerOffset={100}
-    //   open={false}
-    // ></Drawer>
-    loading ? (
-      <View style={styles.loading}>
-        <Circle size={100} color={colorGren} />
-      </View>
-    ) : (
-      <View>
-        <FlatList
-          data={carData}
-          renderItem={({ item }) => (
-            <CarLine
-              carInfo={item}
-              navigation={() => {
-                navigation.navigate("Car", {
-                  title: item.number,
-                });
-              }}
-            />
-          )}
-          keyExtractor={(item) => item.number}
-        />
-      </View>
-    )
+  return loading ? (
+    <View style={styles.loading}>
+      <Circle size={100} color={colorGren} />
+    </View>
+  ) : (
+    <View>
+      <FlatList
+        data={carData}
+        renderItem={({ item }) => (
+          <CarLine
+            carInfo={item}
+            navigation={() => {
+              navigation.navigate("Car", {
+                title: item.number,
+              });
+            }}
+          />
+        )}
+        keyExtractor={(item) => item.number}
+      />
+    </View>
   );
 };
 

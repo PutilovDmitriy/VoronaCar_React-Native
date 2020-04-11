@@ -17,6 +17,6 @@ export default function AuthPage() {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
-    paddingVertical: 20
-  }
+    paddingVertical: 20,
+  },
 });
