@@ -12,7 +12,7 @@ interface CarLineProps {
 
 const CarLine: React.FunctionComponent<CarLineProps> = ({
   carInfo,
-  navigation
+  navigation,
 }) => {
   return (
     <SwipeWrapper>
@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "#fff",
     borderBottomColor: "#ccc",
-    borderBottomWidth: 0.5
-  }
+    borderBottomWidth: 0.5,
+  },
 });

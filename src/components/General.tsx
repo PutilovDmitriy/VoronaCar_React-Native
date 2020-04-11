@@ -7,8 +7,7 @@ interface GeneralProps {
 }
 
 const General: React.FunctionComponent<GeneralProps> = ({ authorized }) => {
-  // return authorized ? <Routes /> : <AuthPage />;
-  return <Routes />;
+  return authorized ? <Routes /> : <AuthPage />;
 };
 
 export default General;

@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../containers/Home";
 import Car from "../components/Car";
 import { RoutesParamList } from "../types/RoutesParamList";
+import Navbar from "../components/Navbar";
 
 interface RoutesProps {}
 
@@ -17,10 +18,23 @@ const Routes: React.FC<RoutesProps> = ({}) => {
           name="Home"
           component={Home}
           options={{
-            header: () => null
+            header: () => <Navbar />,
           }}
         />
-        <Stack.Screen name="Car" component={Car} options={{}} />
+        <Stack.Screen
+          name="Car"
+          component={Car}
+          options={{
+            headerTitleAlign: "center",
+            headerTitle: "A000AA ",
+            headerTitleStyle: {
+              color: "white",
+            },
+            headerStyle: {
+              backgroundColor: "#3949ab",
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

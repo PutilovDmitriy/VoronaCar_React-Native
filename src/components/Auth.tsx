@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInputChangeEventData,
+  NativeSyntheticEvent,
 } from "react-native";
 import { UserLog } from "../types/UserLog";
 import { Info } from "../types/Info";
@@ -18,9 +20,13 @@ interface IAppProps {
 }
 
 const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [isValid, setValid] = useState(false);
+  const [login, setLogin] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isValid, setValid] = React.useState(false);
+
+  React.useEffect(() => {
+    updateValid();
+  }, [login, password]);
 
   const updateValid = () => {
     if (login.length === 11 && password !== "") {
@@ -31,7 +37,7 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
   const logIn = () => {
     userAuthorize({
       login,
-      password
+      password,
     });
   };
 
@@ -45,7 +51,6 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
         maxLength={11}
         value={login}
         onChangeText={setLogin}
-        onChange={updateValid}
       />
       <TextInput
         style={style.input}
@@ -54,7 +59,6 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
         secureTextEntry={true}
         value={password}
         onChangeText={setPassword}
-        onChange={updateValid}
       />
       {error && <Text style={style.error}>Неверный логин или пароль</Text>}
       <Button title=" Войти " onPress={logIn} disabled={!isValid} />
@@ -69,7 +73,7 @@ const style = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "80%"
+    height: "80%",
   },
   input: {
     borderBottomColor: "#000000",
@@ -77,10 +81,10 @@ const style = StyleSheet.create({
     borderStyle: "solid",
     fontSize: 20,
     marginBottom: 10,
-    width: "60%"
+    width: "60%",
   },
   error: {
     color: "red",
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });

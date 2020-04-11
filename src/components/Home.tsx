@@ -24,7 +24,7 @@ interface Flat {
 
 const flat: Flat[] = [
   { id: "1", title: "one" },
-  { id: "2", title: "two" }
+  { id: "2", title: "two" },
 ];
 
 const Home: React.FC<HomeProps> = ({
@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({
   carData,
   loading,
   error,
-  getCarInfo
+  getCarInfo,
 }) => {
   const initFetch = useCallback(() => {
     getCarInfo();
@@ -61,11 +61,13 @@ const Home: React.FC<HomeProps> = ({
             <CarLine
               carInfo={item}
               navigation={() => {
-                navigation.navigate("Car");
+                navigation.navigate("Car", {
+                  title: item.number,
+                });
               }}
             />
           )}
-          keyExtractor={item => item.number}
+          keyExtractor={(item) => item.number}
         />
       </View>
     )
@@ -78,6 +80,6 @@ const styles = StyleSheet.create({
   loading: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });

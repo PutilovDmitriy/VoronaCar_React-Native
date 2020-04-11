@@ -6,5 +6,5 @@ export const urlsLogo = {
   R: require("../../public/img/renault.png"),
   W: require("../../public/img/kia.png"),
   K: require("../../public/img/volkswagen.png"),
-  Free: require("../../public/img/.png")
+  // Free: require("../../public/img/.png")
 };
