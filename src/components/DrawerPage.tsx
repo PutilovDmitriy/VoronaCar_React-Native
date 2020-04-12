@@ -6,12 +6,18 @@ import RouterContext from "../contexts/RouterContext";
 interface IDrawerPageProps {
   isModalOil: boolean;
   handleOpenModalOil: () => void;
+  handleCloseDrawer: () => void;
 }
 
 const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   isModalOil,
   handleOpenModalOil,
+  handleCloseDrawer,
 }) => {
+  const handlePressOilBlock = () => {
+    handleOpenModalOil();
+    handleCloseDrawer();
+  };
   return (
     <View style={styles.contaner}>
       <View style={styles.userLine}>
@@ -26,7 +32,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
           <Text style={styles.text}>+7991255722</Text>
         </View>
       </View>
-      <TouchableHighlight onPress={handleOpenModalOil}>
+      <TouchableHighlight onPress={handlePressOilBlock}>
         <View style={styles.infoLine}>
           <View style={styles.logoBlock}>
             <Image

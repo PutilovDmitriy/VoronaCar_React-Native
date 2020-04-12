@@ -8,7 +8,7 @@ import CarLine from "./CarLine";
 import { Car } from "../types/Car";
 import { Circle } from "react-native-animated-spinkit";
 import { colorGren } from "../const";
-import RouterContext from "../contexts/RouterContext";
+import ModalOil from "./ModalOil";
 
 interface HomeProps {
   navigation: StackNavigationProp<RoutesParamList>;
@@ -43,8 +43,6 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
-  const { isModalOil } = React.useContext(RouterContext);
-
   return loading ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGren} />
@@ -65,9 +63,7 @@ const Home: React.FC<HomeProps> = ({
         )}
         keyExtractor={(item) => item.number}
       />
-      {/* <Modal visible={isModalOil}>
-        <Text>Привет</Text>
-      </Modal> */}
+      <ModalOil />
     </View>
   );
 };

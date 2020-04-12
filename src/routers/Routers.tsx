@@ -21,58 +21,66 @@ const Routes: React.FC<RoutesProps> = ({}) => {
     setModalOil(true);
   };
 
+  const handleCloseModalOil = () => {
+    setModalOil(false);
+  };
+
+  const handleCloseDrawer = () => {
+    drawler?.closeDrawer();
+  };
+
   return (
-    // <RouterContext.Provider value={{ isModalOil }}>
-    <DrawerLayout
-      drawerType="front"
-      drawerWidth={300}
-      ref={(e) => (drawler = e)}
-      renderNavigationView={() =>
-        DrawerPage({ isModalOil, handleOpenModalOil })
-      }
-    >
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              headerTitleAlign: "center",
-              headerTitle: "VoronaCar",
-              headerTitleStyle: {
-                color: "white",
-              },
-              headerStyle: {
-                backgroundColor: "#3949ab",
-              },
-              headerLeft: () => (
-                <Button
-                  title="lol"
-                  onPress={() => {
-                    drawler?.openDrawer();
-                  }}
-                />
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="Car"
-            component={Car}
-            options={{
-              headerTitleAlign: "center",
-              headerTitle: "A000AA ",
-              headerTitleStyle: {
-                color: "white",
-              },
-              headerStyle: {
-                backgroundColor: "#3949ab",
-              },
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </DrawerLayout>
-    // </RouterContext.Provider>
+    <RouterContext.Provider value={{ isModalOil, handleCloseModalOil }}>
+      <DrawerLayout
+        drawerType="front"
+        drawerWidth={300}
+        ref={(e) => (drawler = e)}
+        renderNavigationView={() =>
+          DrawerPage({ isModalOil, handleOpenModalOil, handleCloseDrawer })
+        }
+      >
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "VoronaCar",
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerStyle: {
+                  backgroundColor: "#3949ab",
+                },
+                headerLeft: () => (
+                  <Button
+                    title="lol"
+                    onPress={() => {
+                      drawler?.openDrawer();
+                    }}
+                  />
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="Car"
+              component={Car}
+              options={{
+                headerTitleAlign: "center",
+                headerTitle: "A000AA ",
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerStyle: {
+                  backgroundColor: "#3949ab",
+                },
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </DrawerLayout>
+    </RouterContext.Provider>
   );
 };
 
