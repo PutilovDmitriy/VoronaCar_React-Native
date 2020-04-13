@@ -8,6 +8,7 @@ import { Button, Text } from "react-native";
 import DrawerPage from "../components/DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
+import DrawerButton from "../components/DrawerButton";
 
 interface RoutesProps {}
 
@@ -54,8 +55,7 @@ const Routes: React.FC<RoutesProps> = ({}) => {
                   backgroundColor: "#3949ab",
                 },
                 headerLeft: () => (
-                  <Button
-                    title="lol"
+                  <DrawerButton
                     onPress={() => {
                       drawler?.openDrawer();
                     }}
