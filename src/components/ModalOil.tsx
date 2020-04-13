@@ -39,6 +39,7 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
             keyboardType="numeric"
             placeholder="Литры"
             maxLength={5}
+            autoFocus={true}
             onChangeText={handleChangeValue}
           />
           <View style={styles.button}>
