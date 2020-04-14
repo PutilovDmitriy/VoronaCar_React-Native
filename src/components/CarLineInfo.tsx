@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  ImageSourcePropType,
-} from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { Car } from "../types/Car";
 import { dateFormat, urlsLogo } from "../const/index";
 

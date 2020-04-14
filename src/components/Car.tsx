@@ -1,6 +1,8 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput, Image } from "react-native";
-import { urlsProblem } from "../const";
+import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
+import SectionedMultiSelect from "react-native-sectioned-multi-select";
+import { urlsProblem, problemsItem } from "../const";
+import { Problem } from "../types/Car";
 
 interface IAppProps {
   navigation: any;
@@ -16,7 +18,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const [value, setValue] = React.useState<string>();
   const [wash, setWash] = React.useState<string>();
-  const [problems, setProblems] = React.useState<string[]>([]);
+  const [problems, setProblems] = React.useState<Problem[]>([]);
 
   const handleChangeValue = (text: string) => {
     if (text !== "0" && !isNaN(Number(text))) {
@@ -30,13 +32,17 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
     }
   };
 
+  const handleChangeProblems = (items: Problem[]) => {
+    setProblems(items);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.problem}>
         {problems.map((item, index) => (
           <Image
             key={index}
-            source={urlsProblem(item)}
+            source={urlsProblem(item.id)}
             style={{ width: 40, height: 40 }}
           />
         ))}
@@ -58,6 +64,17 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
           value={wash}
           onChangeText={handleChangeWash}
         />
+        <View style={styles.select}>
+          <SectionedMultiSelect
+            items={problemsItem}
+            uniqueKey="id"
+            selectText="Укажи проблемы..."
+            onSelectedItemsChange={handleChangeProblems}
+            hideSearch={true}
+            selectedItems={problems}
+          />
+        </View>
+        <Button title="Отправить" onPress={() => console.log("hi")} />
       </View>
     </View>
   );
@@ -88,5 +105,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
     height: 50,
+  },
+  select: {
+    width: 200,
   },
 });
