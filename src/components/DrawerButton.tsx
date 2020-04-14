@@ -10,7 +10,7 @@ const DrawerButton: React.FunctionComponent<IDrawerButtonProps> = ({
   onPress,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={{ marginLeft: 5 }}>
+    <TouchableOpacity onPress={onPress} style={{ marginLeft: 20 }}>
       <Image
         source={require("../../public/img/drawerMenu.png")}
         style={{ width: 30, height: 30 }}

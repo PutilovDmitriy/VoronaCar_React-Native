@@ -4,18 +4,21 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../containers/Home";
 import Car from "../components/Car";
 import { RoutesParamList } from "../types/RoutesParamList";
-import { Button, Text } from "react-native";
 import DrawerPage from "../components/DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "../components/DrawerButton";
+import WorkShift from "../components/WorkShift";
 
-interface RoutesProps {}
+interface RoutesProps {
+  handleStopShift: () => void;
+}
 
 const Stack = createStackNavigator<RoutesParamList>();
+
 let drawler: DrawerLayout | null;
 
-const Routes: React.FC<RoutesProps> = ({}) => {
+const Routes: React.FC<RoutesProps> = ({ handleStopShift }) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
   const handleOpenModalOil = () => {
@@ -37,7 +40,12 @@ const Routes: React.FC<RoutesProps> = ({}) => {
         drawerWidth={300}
         ref={(e) => (drawler = e)}
         renderNavigationView={() =>
-          DrawerPage({ isModalOil, handleOpenModalOil, handleCloseDrawer })
+          DrawerPage({
+            isModalOil,
+            handleOpenModalOil,
+            handleCloseDrawer,
+            handleStopShift,
+          })
         }
       >
         <NavigationContainer>

@@ -1,23 +1,29 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
 import RouterContext from "../contexts/RouterContext";
 
 interface IDrawerPageProps {
   isModalOil: boolean;
   handleOpenModalOil: () => void;
   handleCloseDrawer: () => void;
+  handleStopShift: () => void;
 }
 
 const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   isModalOil,
   handleOpenModalOil,
   handleCloseDrawer,
+  handleStopShift,
 }) => {
   const handlePressOilBlock = () => {
     handleOpenModalOil();
     handleCloseDrawer();
   };
+
   return (
     <View style={styles.contaner}>
       <View style={styles.topBlock}></View>
@@ -52,6 +58,14 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
           </View>
         </View>
       </TouchableHighlight>
+      <View style={styles.escape}>
+        <TouchableHighlight
+          style={styles.buttonEscape}
+          onPress={handleStopShift}
+        >
+          <Text style={styles.textCategory}>Завершить смену</Text>
+        </TouchableHighlight>
+      </View>
     </View>
   );
 };
@@ -115,5 +129,19 @@ const styles = StyleSheet.create({
   textCategory: {
     color: "#fff",
     fontSize: 24,
+  },
+  escape: {
+    position: "absolute",
+    bottom: 30,
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonEscape: {
+    height: 50,
+    width: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#D22525",
+    borderRadius: 10,
   },
 });

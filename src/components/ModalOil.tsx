@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  Modal,
-  View,
-  Text,
-  StyleSheet,
-  BackHandler,
-  Button,
-  TextInput,
-} from "react-native";
+import { Modal, View, Text, StyleSheet, Button, TextInput } from "react-native";
 import RouterContext from "../contexts/RouterContext";
 
 interface IModalOilProps {}
@@ -22,7 +14,9 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    handleCloseModalOil && handleCloseModalOil();
+  };
   return (
     <Modal
       visible={isModalOil}
