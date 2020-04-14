@@ -17,7 +17,7 @@ const WorkShift: React.FunctionComponent<IWorkShiftProps> = ({
     <View style={styles.container}>
       <View>
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={0.1}
           style={styles.button}
           onPress={handlePress}
         >
