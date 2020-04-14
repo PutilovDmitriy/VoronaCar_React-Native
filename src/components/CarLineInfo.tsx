@@ -14,27 +14,9 @@ interface CarLineInfoProps {
 }
 
 const CarLineInfo: React.FC<CarLineInfoProps> = ({ carInfo }) => {
-  const [img, setImg] = React.useState<ImageSourcePropType>([]);
-
-  React.useEffect(() => {
-    switch (carInfo.model) {
-      case "K":
-        setImg(urlsLogo.K);
-        break;
-      case "R":
-        setImg(urlsLogo.R);
-        break;
-      case "W":
-        setImg(urlsLogo.W);
-        break;
-      default:
-        setImg(urlsLogo.Free);
-    }
-  }, [carInfo.model]);
-
   return (
     <View style={styles.contaner}>
-      <Image style={styles.logo} source={img} />
+      <Image style={styles.logo} source={urlsLogo(carInfo.model)} />
       <Text style={styles.number}>{carInfo.number}</Text>
       <View>
         <Text>{dateFormat(new Date(carInfo.lastService), "hh:mm")}</Text>

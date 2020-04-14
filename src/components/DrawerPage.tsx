@@ -20,6 +20,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   };
   return (
     <View style={styles.contaner}>
+      <View style={styles.topBlock}></View>
       <View style={styles.userLine}>
         <View style={styles.avatar}>
           <Image
@@ -62,7 +63,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#000",
     height: "100%",
-    paddingVertical: 50,
+  },
+  topBlock: {
+    minHeight: 50,
+    backgroundColor: "#22303B",
   },
   text: {
     color: "#fff",
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 80,
     borderBottomWidth: 1,
-    backgroundColor: "#14181A",
+    backgroundColor: "#22303B",
   },
   avatar: {
     flex: 1,
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
   },
   infoLine: {
     flexDirection: "row",
-    height: 40,
+    height: 50,
     backgroundColor: "#000",
   },
   logoBlock: {
