@@ -13,8 +13,8 @@ const CarLineInfo: React.FC<CarLineInfoProps> = ({ carInfo }) => {
       <Image style={styles.logo} source={urlsLogo(carInfo.model)} />
       <Text style={styles.number}>{carInfo.number}</Text>
       <View>
-        <Text>{dateFormat(new Date(carInfo.lastService), "hh:mm")}</Text>
-        <Text>{dateFormat(new Date(carInfo.lastService), "dd.mm")}</Text>
+        <Text>{dateFormat(new Date(carInfo.lastService), "hh:mm", true)}</Text>
+        <Text>{dateFormat(new Date(carInfo.lastService), "dd.mm", true)}</Text>
       </View>
     </View>
   );

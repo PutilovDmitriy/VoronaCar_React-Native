@@ -42,6 +42,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     serviceCar && serviceCar(number, problems);
+    navigation.goBack();
   };
 
   return (

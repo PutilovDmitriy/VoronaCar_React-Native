@@ -30,7 +30,8 @@ export const carUpdate = (payload: Car): AppActionsType => {
 export const getCarInfo = () => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(carBegin());
-    return fetch(urlCar)
+    const url = urlCar + "/info";
+    return fetch(url)
       .then((response) => response.json())
       .then((res) => {
         return dispatch(carSuccess(res));
@@ -48,8 +49,7 @@ export const serviceCar = (number: string, problems: Problem[]) => {
     return axios
       .put(url, { number, problems })
       .then((res) => {
-        console.log(res.data);
-        // return dispatch(carUpdate(res.data.info));
+        return dispatch(carUpdate(res.data.info));
       })
       .catch((error) => {
         return dispatch(carFailure(error.response.data.message));

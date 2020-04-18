@@ -1,7 +1,7 @@
 import { Problem, ProblemKey } from "../types/Car";
 
 export const urlUser = "https://pacific-cliffs-72324.herokuapp.com/auth/login";
-export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car/info";
+export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car";
 export const urlVorona =
   "https://pacific-cliffs-72324.herokuapp.com/car/vorona";
 export const colorGren = "#4ed963"; // нежно зеленый

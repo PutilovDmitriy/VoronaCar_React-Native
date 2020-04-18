@@ -23,11 +23,6 @@ interface Flat {
   title: string;
 }
 
-const flat: Flat[] = [
-  { id: "1", title: "one" },
-  { id: "2", title: "two" },
-];
-
 const Home: React.FC<HomeProps> = ({
   navigation,
   carData,

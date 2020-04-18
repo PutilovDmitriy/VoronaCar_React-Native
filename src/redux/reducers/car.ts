@@ -4,7 +4,7 @@ import { AppActionsType } from "../../types/action";
 const initialState: CarReducer = {
   info: [],
   loading: false,
-  error: null
+  error: null,
 };
 
 export const carReducer = (
@@ -15,20 +15,33 @@ export const carReducer = (
     case CarActions.CAR_BEGIN:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case CarActions.CAR_SUCCESS:
       return {
         ...state,
         info: action.payload,
         loading: false,
-        error: null
+        error: null,
+      };
+    case CarActions.CAR_UPDATE:
+      const idx = state.info.findIndex(
+        (item) => item.number === action.payload.number
+      );
+      console.log(idx);
+      console.log(state.info.splice(idx, 1, action.payload));
+
+      return {
+        ...state,
+        info: state.info.splice(idx, 1, action.payload),
+        loading: false,
+        error: null,
       };
     case CarActions.CAR_FAILURI:
       return {
         ...state,
         loading: false,
-        error: action.error
+        error: action.error,
       };
     default:
       return state;
