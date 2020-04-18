@@ -1,7 +1,9 @@
 import { Problem, ProblemKey } from "../types/Car";
 
 export const urlUser = "https://glacial-ridge-38472.herokuapp.com/user/";
-export const urlCar = "https://glacial-ridge-38472.herokuapp.com/car/";
+export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car/info";
+export const urlVorona =
+  "https://pacific-cliffs-72324.herokuapp.com/car/vorona";
 export const colorGren = "#4ed963"; // нежно зеленый
 export const dateFormat = require("dateformat");
 export const urlsLogo = (key: string) => {
@@ -9,9 +11,9 @@ export const urlsLogo = (key: string) => {
     case "R":
       return require("../../public/img/renault.png");
     case "W":
-      return require("../../public/img/kia.png");
-    case "K":
       return require("../../public/img/volkswagen.png");
+    case "K":
+      return require("../../public/img/kia.png");
     default:
       return require("../../public/img/FreeCar.png");
   }

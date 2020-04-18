@@ -1,3 +1,4 @@
+import { VoronaActions } from "./../redux/action/vorona";
 import { Car } from "./Car";
 import { CarActions } from "./../redux/action/car";
 import { Info } from "./Info";
@@ -39,4 +40,40 @@ export interface CarFailure {
 
 export type CarActionsType = CarBegin | CarSuccess | CarFailure;
 
-export type AppActionsType = LoginActionsType | CarActionsType;
+//type Vorona
+
+export interface VoronaBegin {
+  type: typeof VoronaActions.VORONA_BEGIN;
+}
+
+export interface VoronaSuccess {
+  type: typeof VoronaActions.VORONA_SUCCESS;
+  payload: number;
+}
+
+export interface VoronaFailure {
+  type: typeof VoronaActions.VORONA_FAILURI;
+  payload: string;
+}
+
+export interface VoronaPlus {
+  type: typeof VoronaActions.VORONA_PLUS;
+  payload: number;
+}
+
+export interface VoronaMinus {
+  type: typeof VoronaActions.VORONA_MINUS;
+  payload: number;
+}
+
+export type VoronaActionsType =
+  | VoronaBegin
+  | VoronaSuccess
+  | VoronaFailure
+  | VoronaPlus
+  | VoronaMinus;
+
+export type AppActionsType =
+  | LoginActionsType
+  | CarActionsType
+  | VoronaActionsType;

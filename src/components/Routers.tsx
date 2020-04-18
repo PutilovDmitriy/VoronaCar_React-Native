@@ -2,23 +2,29 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../containers/Home";
-import Car from "../components/Car";
+import Car from "./Car";
 import { RoutesParamList } from "../types/RoutesParamList";
-import DrawerPage from "../components/DrawerPage";
+import DrawerPage from "./DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
-import DrawerButton from "../components/DrawerButton";
-import WorkShift from "../components/WorkShift";
+import DrawerButton from "./DrawerButton";
+import WorkShift from "./WorkShift";
 
 interface RoutesProps {
   handleStopShift: () => void;
+  valueOil: number;
+  voronaPlus: (payload: number) => void;
 }
 
 const Stack = createStackNavigator<RoutesParamList>();
 
 let drawler: DrawerLayout | null;
 
-const Routes: React.FC<RoutesProps> = ({ handleStopShift }) => {
+const Routes: React.FC<RoutesProps> = ({
+  handleStopShift,
+  valueOil,
+  voronaPlus,
+}) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
   const handleOpenModalOil = () => {
@@ -33,8 +39,12 @@ const Routes: React.FC<RoutesProps> = ({ handleStopShift }) => {
     drawler?.closeDrawer();
   };
 
+  const handlePlusOil = (value: number) => {};
+
   return (
-    <RouterContext.Provider value={{ isModalOil, handleCloseModalOil }}>
+    <RouterContext.Provider
+      value={{ isModalOil, handleCloseModalOil, handlePlusOil, voronaPlus }}
+    >
       <DrawerLayout
         drawerType="front"
         drawerWidth={300}
@@ -45,6 +55,7 @@ const Routes: React.FC<RoutesProps> = ({ handleStopShift }) => {
             handleOpenModalOil,
             handleCloseDrawer,
             handleStopShift,
+            valueOil,
           })
         }
       >

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Blank Template (TypeScript)",
-    "slug": "expo-test",
+    "slug": "vorona-car-admin-app",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.voronacar.voronacar",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.voronacar.voronacar",
+      "versionCode": 1
     }
   }
 }

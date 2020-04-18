@@ -5,7 +5,9 @@ import RouterContext from "../contexts/RouterContext";
 interface IModalOilProps {}
 
 const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
-  const { isModalOil, handleCloseModalOil } = React.useContext(RouterContext);
+  const { isModalOil, handleCloseModalOil, voronaPlus } = React.useContext(
+    RouterContext
+  );
   const [value, setValue] = React.useState<string>();
 
   const handleChangeValue = (text: string) => {
@@ -15,6 +17,7 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
   };
 
   const handleSubmit = () => {
+    voronaPlus && voronaPlus(Number(value));
     handleCloseModalOil && handleCloseModalOil();
   };
   return (

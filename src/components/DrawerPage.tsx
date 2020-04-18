@@ -1,9 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import RouterContext from "../contexts/RouterContext";
 
 interface IDrawerPageProps {
@@ -11,6 +8,7 @@ interface IDrawerPageProps {
   handleOpenModalOil: () => void;
   handleCloseDrawer: () => void;
   handleStopShift: () => void;
+  valueOil: number;
 }
 
 const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
@@ -18,6 +16,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   handleOpenModalOil,
   handleCloseDrawer,
   handleStopShift,
+  valueOil,
 }) => {
   const handlePressOilBlock = () => {
     handleOpenModalOil();
@@ -48,7 +47,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
             />
           </View>
           <View style={styles.textBlock}>
-            <Text style={styles.textCategory}>Остаток: </Text>
+            <Text style={styles.textCategory}>Остаток: {valueOil}</Text>
           </View>
           <View style={styles.alertOil}>
             <Image

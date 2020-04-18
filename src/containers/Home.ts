@@ -1,3 +1,4 @@
+import { Car } from "./../types/Car";
 import { getCarInfo } from "../redux/action/car";
 import { AppState } from "../redux/store/index";
 import { AppActionsType } from "../types/action";
@@ -6,8 +7,12 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Home from "../components/Home";
 
+const sortByDate = (data: Car[]) => {
+  return data.sort((a, b) => (a.lastService < b.lastService ? 1 : -1));
+};
+
 const mapStateToProps = (state: AppState) => ({
-  carData: state.carReducer.info,
+  carData: sortByDate(state.carReducer.info),
   loading: state.carReducer.loading,
   error: state.carReducer.error,
   user: state.userReducer.info,

@@ -1,6 +1,6 @@
 import { Info } from "./../../types/Info";
-import { urlCar } from "./../../const/index";
-import { Car } from "./../../types/Car";
+import { urlCar, urlVorona } from "./../../const/index";
+import { Car, Problem } from "./../../types/Car";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
 
@@ -27,28 +27,32 @@ export const getCarInfo = () => {
     dispatch(carBegin());
     return fetch(urlCar)
       .then((response) => response.json())
-      .then((data) => {
-        if (data.length === 0) {
-          dispatch(carFailure(404));
-        } else dispatch(carSuccess(data));
-        return data;
+      .then((res) => {
+        return dispatch(carSuccess(res));
+      })
+      .catch((error) => {
+        return dispatch(carFailure(error));
       });
   };
 };
 
-// export const updateCarInfo = (info: Info) => {
+// export const updateCarInfo = (number: number, problems: Problem[]) => {
 //   return (dispatch: Dispatch<AppActionsType>) => {
 //     dispatch(carBegin());
-//     return fetch(urlCar, {
+//     const url = urlCar + "/services";
+//     return fetch(url, {
 //       method: "PUT",
 //       headers: {
 //         "Content-Type": "application/json;charset=utf-8",
 //       },
-//       body: JSON.stringify(info),
+//       body: JSON.stringify({ number, problems }),
 //     })
 //       .then((response) => response.json())
 //       .then((res) => {
-//         dispatch(updateCarInfo(info));
+//         return dispatch(carSuccess(res));
+//       })
+//       .catch((error) => {
+//         return dispatch(carFailure(error));
 //       });
 //   };
 // };
