@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useContext } from "react";
-import Drawer from "react-native-drawer";
 import { View, StyleSheet, Modal, Text } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../types/RoutesParamList";

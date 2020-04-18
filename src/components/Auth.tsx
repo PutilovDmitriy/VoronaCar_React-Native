@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  TextInputChangeEventData,
-  NativeSyntheticEvent,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { Info } from "../types/UserInfo";
+import { Flow } from "react-native-animated-spinkit";
+import { colorGren } from "../const";
 
 interface IAppProps {
   userInfo: Info;
@@ -38,9 +31,9 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
   };
 
   return (
-    <View style={style.container}>
+    <View style={styles.container}>
       <TextInput
-        style={style.input}
+        style={styles.input}
         placeholder="Логин"
         autoCompleteType="tel"
         keyboardType="number-pad"
@@ -49,22 +42,34 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
         onChangeText={setLogin}
       />
       <TextInput
-        style={style.input}
+        style={styles.input}
         placeholder="Пароль"
         autoCompleteType="password"
         secureTextEntry={true}
         value={password}
         onChangeText={setPassword}
       />
-      {error && <Text style={style.error}>Неверный логин или пароль</Text>}
-      <Button title=" Войти " onPress={logIn} disabled={!isValid} />
+      {error && <Text style={styles.error}>Неверный логин или пароль</Text>}
+
+      {!loading ? (
+        <Button
+          title=" Войти "
+          onPress={logIn}
+          disabled={!isValid}
+          color="#3949ab"
+        />
+      ) : (
+        <View style={styles.loading}>
+          <Flow size={30} color="#fff" />
+        </View>
+      )}
     </View>
   );
 };
 
 export default Auth;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     alignItems: "center",
@@ -82,5 +87,12 @@ const style = StyleSheet.create({
   error: {
     color: "red",
     marginBottom: 10,
+  },
+  loading: {
+    backgroundColor: "#3949ab",
+    height: 35,
+    width: 70,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
