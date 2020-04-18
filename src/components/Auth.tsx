@@ -9,14 +9,13 @@ import {
   TextInputChangeEventData,
   NativeSyntheticEvent,
 } from "react-native";
-import { UserLog } from "../types/UserLog";
-import { Info } from "../types/Info";
+import { Info } from "../types/UserInfo";
 
 interface IAppProps {
   userInfo: Info;
   loading: boolean;
   error: any;
-  userAuthorize: (userLog: UserLog) => void;
+  userAuthorize: (login: string, password: string) => void;
 }
 
 const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
@@ -35,10 +34,7 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
   };
 
   const logIn = () => {
-    userAuthorize({
-      login,
-      password,
-    });
+    userAuthorize(login, password);
   };
 
   return (

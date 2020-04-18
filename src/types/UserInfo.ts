@@ -1,6 +1,5 @@
 export interface Info {
-  id: number;
+  id: string;
   name: string;
   login: string;
-  password: string;
 }

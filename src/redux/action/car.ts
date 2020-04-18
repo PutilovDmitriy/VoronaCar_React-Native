@@ -1,4 +1,4 @@
-import { Info } from "./../../types/Info";
+import axios from "axios";
 import { urlCar, urlVorona } from "./../../const/index";
 import { Car, Problem } from "./../../types/Car";
 import { AppActionsType } from "../../types/action";
@@ -8,6 +8,7 @@ export enum CarActions {
   CAR_BEGIN = "CAR_BEGIN",
   CAR_SUCCESS = "CAR_SUCCESS",
   CAR_FAILURI = "CAR_FAILURI",
+  CAR_UPDATE = "CAR_UPDATE",
 }
 
 export const carBegin = (): AppActionsType => {
@@ -20,6 +21,10 @@ export const carSuccess = (payload: Car[]): AppActionsType => {
 
 export const carFailure = (error: any): AppActionsType => {
   return { type: CarActions.CAR_FAILURI, error };
+};
+
+export const carUpdate = (payload: Car): AppActionsType => {
+  return { type: CarActions.CAR_UPDATE, payload };
 };
 
 export const getCarInfo = () => {
@@ -36,23 +41,18 @@ export const getCarInfo = () => {
   };
 };
 
-// export const updateCarInfo = (number: number, problems: Problem[]) => {
-//   return (dispatch: Dispatch<AppActionsType>) => {
-//     dispatch(carBegin());
-//     const url = urlCar + "/services";
-//     return fetch(url, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json;charset=utf-8",
-//       },
-//       body: JSON.stringify({ number, problems }),
-//     })
-//       .then((response) => response.json())
-//       .then((res) => {
-//         return dispatch(carSuccess(res));
-//       })
-//       .catch((error) => {
-//         return dispatch(carFailure(error));
-//       });
-//   };
-// };
+export const serviceCar = (number: string, problems: Problem[]) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(carBegin());
+    const url = urlCar + "/services";
+    return axios
+      .put(url, { number, problems })
+      .then((res) => {
+        console.log(res.data);
+        // return dispatch(carUpdate(res.data.info));
+      })
+      .catch((error) => {
+        return dispatch(carFailure(error.response.data.message));
+      });
+  };
+};

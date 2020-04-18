@@ -4,14 +4,13 @@ import { LoginActions } from "../action/user";
 
 const initialState: User = {
   info: {
-    id: 0,
+    id: "",
     name: "",
     login: "",
-    password: ""
   },
   authorized: false,
   loading: false,
-  error: null
+  error: null,
 };
 
 export const userReducer = (
@@ -22,7 +21,7 @@ export const userReducer = (
     case LoginActions.LOGIN_BEGIN:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case LoginActions.LOGIN_SUCCESS:
       return {
@@ -30,14 +29,14 @@ export const userReducer = (
         info: action.payload,
         loading: false,
         authorized: true,
-        error: null
+        error: null,
       };
     case LoginActions.LOGIN_FAILURI:
       return {
         ...state,
         loading: false,
         authorized: false,
-        error: action.error
+        error: action.error,
       };
     default:
       return state;

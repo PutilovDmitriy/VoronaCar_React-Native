@@ -1,4 +1,4 @@
-import { Info } from "./Info";
+import { Info } from "./UserInfo";
 export interface User {
   info: Info;
   authorized: boolean;

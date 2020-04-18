@@ -1,27 +1,23 @@
 import React from "react";
-import Routes from "./Routers";
+import Routes from "../containers/Routers";
 import AuthPage from "./AuthPage";
 import WorkShift from "./WorkShift";
-import { Button } from "react-native";
+import { Problem } from "../types/Car";
 
 interface GeneralProps {
   authorized: boolean;
-  valueOil: number;
   getValueOil: () => void;
-  voronaPlus: (payload: number) => void;
 }
 
 const General: React.FunctionComponent<GeneralProps> = ({
   authorized,
-  valueOil,
   getValueOil,
-  voronaPlus,
 }) => {
   const [isShift, setShift] = React.useState<boolean>(false);
 
-  // React.useEffect(() => {
-  //   getValueOil();
-  // }, []);
+  React.useEffect(() => {
+    getValueOil();
+  }, []);
 
   const handleStartShift = () => {
     setShift(true);
@@ -33,11 +29,7 @@ const General: React.FunctionComponent<GeneralProps> = ({
 
   return authorized ? (
     isShift ? (
-      <Routes
-        handleStopShift={handleStopShift}
-        valueOil={valueOil}
-        voronaPlus={voronaPlus}
-      />
+      <Routes handleStopShift={handleStopShift} />
     ) : (
       <WorkShift handleStartShift={handleStartShift} />
     )

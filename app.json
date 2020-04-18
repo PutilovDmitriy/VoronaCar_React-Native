@@ -1,14 +1,10 @@
 {
   "expo": {
-    "name": "Blank Template (TypeScript)",
+    "name": "Vorona Car ServiceApp",
     "slug": "vorona-car-admin-app",
     "privacy": "public",
     "sdkVersion": "36.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": [ "android" ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,11 +21,11 @@
     ],
     "ios": {
       "bundleIdentifier": "com.voronacar.voronacar",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.2"
     },
     "android": {
       "package": "com.voronacar.voronacar",
-      "versionCode": 1
+      "versionCode": 2
     }
   }
 }

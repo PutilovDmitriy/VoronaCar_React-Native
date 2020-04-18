@@ -1,6 +1,6 @@
 import { Problem, ProblemKey } from "../types/Car";
 
-export const urlUser = "https://glacial-ridge-38472.herokuapp.com/user/";
+export const urlUser = "https://pacific-cliffs-72324.herokuapp.com/auth/login";
 export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car/info";
 export const urlVorona =
   "https://pacific-cliffs-72324.herokuapp.com/car/vorona";

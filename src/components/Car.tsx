@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { urlsProblem, problemsItem } from "../const";
 import { Problem } from "../types/Car";
+import RouterContext from "../contexts/RouterContext";
 
 interface IAppProps {
   navigation: any;
@@ -19,6 +20,9 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   const [value, setValue] = React.useState<string>();
   const [wash, setWash] = React.useState<string>();
   const [problems, setProblems] = React.useState<Problem[]>([]);
+  const number: string = route.params.title;
+
+  const { serviceCar } = React.useContext(RouterContext);
 
   const handleChangeValue = (text: string) => {
     if (text !== "0" && !isNaN(Number(text))) {
@@ -34,6 +38,10 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const handleChangeProblems = (items: Problem[]) => {
     setProblems(items);
+  };
+
+  const handleSubmit = () => {
+    serviceCar && serviceCar(number, problems);
   };
 
   return (
@@ -74,7 +82,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             selectedItems={problems}
           />
         </View>
-        <Button title="Отправить" onPress={() => console.log("hi")} />
+        <Button title="Отправить" onPress={handleSubmit} />
       </View>
     </View>
   );

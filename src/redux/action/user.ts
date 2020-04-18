@@ -1,13 +1,13 @@
 import { urlUser } from "./../../const/index";
-import { Info } from "./../../types/Info";
-import { UserLog } from "./../../types/UserLog";
+import { Info } from "../../types/UserInfo";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
+import axios from "axios";
 
 export enum LoginActions {
   LOGIN_BEGIN = "LOGIN_BEGIN",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
-  LOGIN_FAILURI = "LOGIN_FAILURI"
+  LOGIN_FAILURI = "LOGIN_FAILURI",
 }
 
 export const loginBegin = (): AppActionsType => {
@@ -22,18 +22,22 @@ export const loginFailure = (error: any): AppActionsType => {
   return { type: LoginActions.LOGIN_FAILURI, error };
 };
 
-export const userAuthorize = (userLog: UserLog) => {
+export const userAuthorize = (login: string, password: string) => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(loginBegin());
-    let url =
-      urlUser + "?login=" + userLog.login + "&password=" + userLog.password;
-    return fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length === 0) {
-          dispatch(loginFailure(404));
-        } else dispatch(loginSuccess(data[0]));
-        return data;
+    return axios
+      .post(urlUser, { login, password })
+      .then((res) => {
+        return dispatch(
+          loginSuccess({
+            id: res.data.userId,
+            name: res.data.name,
+            login: res.data.login,
+          })
+        );
+      })
+      .catch((error) => {
+        return dispatch(loginFailure(error.response.data.message));
       });
   };
 };

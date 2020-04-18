@@ -1,3 +1,4 @@
+import axios from "axios";
 import { urlVorona } from "./../../const/index";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
@@ -35,14 +36,13 @@ export const voronaGetValue = () => {
     dispatch(voronaBegin());
     console.log("hello");
 
-    return fetch(urlVorona)
-      .then((response) => response.json())
+    return axios
+      .get(urlVorona)
       .then((res) => {
-        return dispatch(voronaSuccess(res));
+        return dispatch(voronaSuccess(res.data));
       })
       .catch((error) => {
-        console.log(error);
-        dispatch(voronaFailure(error));
+        dispatch(voronaFailure(error.response.data.message));
       });
   };
 };
@@ -51,22 +51,28 @@ export const voronaPlusOil = (payload: number) => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(voronaBegin());
     let url = urlVorona + "/plus";
-    return fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
+    return axios.put(url, { value: payload }).then(
+      (res) => {
+        return dispatch(voronaPlus(payload));
       },
-      body: JSON.stringify({ value: payload }),
-    })
-      .then((response) => response.json())
-      .then(
-        (res) => {
-          console.log(res);
-          dispatch(voronaPlus(payload));
-        },
-        (error) => {
-          dispatch(voronaFailure(error));
-        }
-      );
+      (error) => {
+        dispatch(voronaFailure(error.response.data.message));
+      }
+    );
+  };
+};
+
+export const voronaMinusOil = (payload: number) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(voronaBegin());
+    let url = urlVorona + "/minus";
+    return axios.put(url, { value: payload }).then(
+      (res) => {
+        return dispatch(voronaMinus(payload));
+      },
+      (error) => {
+        dispatch(voronaFailure(error.response.data.message));
+      }
+    );
   };
 };

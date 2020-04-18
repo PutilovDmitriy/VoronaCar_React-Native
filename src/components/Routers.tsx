@@ -9,11 +9,14 @@ import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "./DrawerButton";
 import WorkShift from "./WorkShift";
+import { Problem } from "../types/Car";
 
 interface RoutesProps {
-  handleStopShift: () => void;
   valueOil: number;
+  handleStopShift: () => void;
+  getValueOil: () => void;
   voronaPlus: (payload: number) => void;
+  serviceCar: (numder: string, problems: Problem[]) => void;
 }
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -24,6 +27,7 @@ const Routes: React.FC<RoutesProps> = ({
   handleStopShift,
   valueOil,
   voronaPlus,
+  serviceCar,
 }) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
@@ -43,7 +47,13 @@ const Routes: React.FC<RoutesProps> = ({
 
   return (
     <RouterContext.Provider
-      value={{ isModalOil, handleCloseModalOil, handlePlusOil, voronaPlus }}
+      value={{
+        isModalOil,
+        handleCloseModalOil,
+        handlePlusOil,
+        voronaPlus,
+        serviceCar,
+      }}
     >
       <DrawerLayout
         drawerType="front"

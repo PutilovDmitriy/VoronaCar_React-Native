@@ -1,7 +1,7 @@
 import { VoronaActions } from "./../redux/action/vorona";
 import { Car } from "./Car";
 import { CarActions } from "./../redux/action/car";
-import { Info } from "./Info";
+import { Info } from "./UserInfo";
 import { LoginActions } from "../redux/action/user";
 
 // type LoginActions
@@ -33,12 +33,16 @@ export interface CarSuccess {
   payload: Car[];
 }
 
+export interface CarUpdate {
+  type: typeof CarActions.CAR_UPDATE;
+  payload: Car;
+}
+
 export interface CarFailure {
   type: typeof CarActions.CAR_FAILURI;
   error: any;
 }
-
-export type CarActionsType = CarBegin | CarSuccess | CarFailure;
+export type CarActionsType = CarBegin | CarSuccess | CarUpdate | CarFailure;
 
 //type Vorona
 
