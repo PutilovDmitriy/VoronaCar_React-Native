@@ -2,10 +2,17 @@ import React from "react";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { View, StyleSheet, Text, Animated, Image } from "react-native";
 import { colorGren } from "../const";
+import RouterContext from "../contexts/RouterContext";
+import { ProblemKey } from "../types/Car";
 
-interface Props {}
+interface Props {
+  number: string;
+  problems: ProblemKey[];
+}
 
-const SwipeWrapper: React.FC<Props> = (props) => {
+const SwipeWrapper: React.FC<Props> = ({ number, problems, children }) => {
+  const { serviceCar } = React.useContext(RouterContext);
+
   const renderRightActions = (progress: any, dragX: any) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
@@ -26,7 +33,9 @@ const SwipeWrapper: React.FC<Props> = (props) => {
     );
   };
 
-  const skipCar = () => {};
+  const skipCar = () => {
+    serviceCar && serviceCar(number, problems);
+  };
   return (
     <Swipeable
       overshootLeft={false}
@@ -34,7 +43,7 @@ const SwipeWrapper: React.FC<Props> = (props) => {
       overshootFriction={30}
       onSwipeableWillOpen={skipCar}
     >
-      {props.children}
+      {children}
     </Swipeable>
   );
 };

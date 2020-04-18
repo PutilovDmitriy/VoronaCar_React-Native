@@ -1,3 +1,4 @@
+import { Model } from "./../types/Model";
 import { Problem, ProblemKey } from "../types/Car";
 
 export const urlUser = "https://pacific-cliffs-72324.herokuapp.com/auth/login";
@@ -6,7 +7,7 @@ export const urlVorona =
   "https://pacific-cliffs-72324.herokuapp.com/car/vorona";
 export const colorGren = "#4ed963"; // нежно зеленый
 export const dateFormat = require("dateformat");
-export const urlsLogo = (key: string) => {
+export const urlsLogo = (key: Model) => {
   switch (key) {
     case "R":
       return require("../../public/img/renault.png");
@@ -30,6 +31,12 @@ export const urlsProblem = (key: ProblemKey) => {
       return require("../../public/img/wheel.png");
     case "C":
       return require("../../public/img/coolant.png");
+    case "M":
+      return require("../../public/img/maslo.png");
+    case "EB":
+      return require("../../public/img/accum.png");
+    case "J":
+      return require("../../public/img/j.png");
     default:
       break;
   }

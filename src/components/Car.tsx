@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { urlsProblem, problemsItem } from "../const";
-import { Problem } from "../types/Car";
+import { Problem, ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
 
 interface IAppProps {
@@ -19,8 +19,9 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const [value, setValue] = React.useState<string>();
   const [wash, setWash] = React.useState<string>();
-  const [problems, setProblems] = React.useState<Problem[]>([]);
+  const [problems, setProblems] = React.useState<ProblemKey[]>([]);
   const number: string = route.params.title;
+  const problemS: ProblemKey[] = route.params.problem;
 
   const { serviceCar } = React.useContext(RouterContext);
 
@@ -36,7 +37,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
     }
   };
 
-  const handleChangeProblems = (items: Problem[]) => {
+  const handleChangeProblems = (items: ProblemKey[]) => {
     setProblems(items);
   };
 
@@ -48,10 +49,10 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.problem}>
-        {problems.map((item, index) => (
+        {problemS.map((item, index) => (
           <Image
             key={index}
-            source={urlsProblem(item.id)}
+            source={urlsProblem(item)}
             style={{ width: 40, height: 40 }}
           />
         ))}

@@ -50,10 +50,12 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
             <Text style={styles.textCategory}>Остаток: {valueOil}</Text>
           </View>
           <View style={styles.alertOil}>
-            <Image
-              source={require("../../public/img/alertGas.png")}
-              style={{ width: 30, height: 30 }}
-            />
+            {valueOil < 50 && (
+              <Image
+                source={require("../../public/img/alertGas.png")}
+                style={{ width: 30, height: 30 }}
+              />
+            )}
           </View>
         </View>
       </TouchableHighlight>

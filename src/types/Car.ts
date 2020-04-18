@@ -4,7 +4,7 @@ export interface Car {
   number: string;
   model: Model;
   lastService: string;
-  problem: Problem[];
+  problems: ProblemKey[];
   isRepairing: boolean;
   comments: string;
 }

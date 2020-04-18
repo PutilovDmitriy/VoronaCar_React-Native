@@ -15,7 +15,7 @@ const CarLine: React.FunctionComponent<CarLineProps> = ({
   navigation,
 }) => {
   return (
-    <SwipeWrapper>
+    <SwipeWrapper problems={carInfo.problems} number={carInfo.number}>
       <TouchableHighlight
         underlayColor="#ccc"
         activeOpacity={1}

@@ -9,14 +9,14 @@ import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "./DrawerButton";
 import WorkShift from "./WorkShift";
-import { Problem } from "../types/Car";
+import { ProblemKey } from "../types/Car";
 
 interface RoutesProps {
   valueOil: number;
   handleStopShift: () => void;
   getValueOil: () => void;
   voronaPlus: (payload: number) => void;
-  serviceCar: (numder: string, problems: Problem[]) => void;
+  serviceCar: (numder: string, problems: ProblemKey[]) => void;
 }
 
 const Stack = createStackNavigator<RoutesParamList>();

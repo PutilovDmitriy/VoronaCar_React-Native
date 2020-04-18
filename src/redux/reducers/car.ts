@@ -28,12 +28,10 @@ export const carReducer = (
       const idx = state.info.findIndex(
         (item) => item.number === action.payload.number
       );
-      console.log(idx);
-      console.log(state.info.splice(idx, 1, action.payload));
-
+      state.info.splice(idx, 1);
       return {
         ...state,
-        info: state.info.splice(idx, 1, action.payload),
+        info: [...state.info, action.payload],
         loading: false,
         error: null,
       };

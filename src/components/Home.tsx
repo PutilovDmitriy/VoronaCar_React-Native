@@ -18,11 +18,6 @@ interface HomeProps {
   getCarInfo: () => void;
 }
 
-interface Flat {
-  id: string;
-  title: string;
-}
-
 const Home: React.FC<HomeProps> = ({
   navigation,
   carData,
@@ -38,6 +33,10 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
+  console.log("====================================");
+  console.log(carData);
+  console.log("====================================");
+
   return loading ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGren} />
@@ -52,6 +51,7 @@ const Home: React.FC<HomeProps> = ({
             navigation={() => {
               navigation.navigate("Car", {
                 title: item.number,
+                problem: item.problems,
               });
             }}
           />

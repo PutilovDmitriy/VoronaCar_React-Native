@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import Home from "../components/Home";
 
 const sortByDate = (data: Car[]) => {
-  return data.sort((a, b) => (a.lastService < b.lastService ? 1 : -1));
+  return data.sort((a, b) => (a.lastService > b.lastService ? 1 : -1));
 };
 
 const mapStateToProps = (state: AppState) => ({
