@@ -56,9 +56,9 @@ const General: React.FunctionComponent<GeneralProps> = ({
     try {
       const value = await AsyncStorage.getItem("SHIFT_ID");
       console.log("shiftID = " + value);
-
       if (value !== null) {
         setShiftId(value);
+        setShift(true);
       }
     } catch (e) {
       console.log("Ошибка проверки shiftId");
@@ -75,9 +75,18 @@ const General: React.FunctionComponent<GeneralProps> = ({
     setShift(true);
   };
 
-  const handleStopShift = () => {
-    shiftFinish(shiftId);
-    setShift(false);
+  const handleStopShift = async () => {
+    try {
+      await AsyncStorage.removeItem("SHIFT_ID");
+      const value = await AsyncStorage.getItem("SHIFT_ID");
+      if (value == null) {
+        console.log("ShiftId удален");
+        setShift(false);
+        return shiftFinish(shiftId);
+      }
+    } catch (e) {
+      return console.log("Выход не удался");
+    }
   };
 
   return authorized ? (
