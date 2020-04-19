@@ -31,6 +31,8 @@ export const userReducer = (
         authorized: true,
         error: null,
       };
+    case LoginActions.LOGIN_LOGOUT:
+      return initialState;
     case LoginActions.LOGIN_FAILURI:
       return {
         ...state,

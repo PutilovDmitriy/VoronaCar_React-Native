@@ -3,25 +3,31 @@ import { Info } from "../../types/UserInfo";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
 import axios from "axios";
-import AsyncStorage from "@react-native-community/async-storage";
-
+import { AsyncStorage } from "react-native";
 export enum LoginActions {
   LOGIN_BEGIN = "LOGIN_BEGIN",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_LOGOUT = "LOGIN_LOGOUT",
   LOGIN_FAILURI = "LOGIN_FAILURI",
 }
 
-export const loginBegin = (): AppActionsType => {
-  return { type: LoginActions.LOGIN_BEGIN };
-};
+export const loginBegin = (): AppActionsType => ({
+  type: LoginActions.LOGIN_BEGIN,
+});
 
-export const loginSuccess = (payload: Info): AppActionsType => {
-  return { type: LoginActions.LOGIN_SUCCESS, payload };
-};
+export const loginSuccess = (payload: Info): AppActionsType => ({
+  type: LoginActions.LOGIN_SUCCESS,
+  payload,
+});
 
-export const loginFailure = (error: any): AppActionsType => {
-  return { type: LoginActions.LOGIN_FAILURI, error };
-};
+export const loginLogout = (): AppActionsType => ({
+  type: LoginActions.LOGIN_LOGOUT,
+});
+
+export const loginFailure = (error: any): AppActionsType => ({
+  type: LoginActions.LOGIN_FAILURI,
+  error,
+});
 
 export const userAuthorize = (login: string, password: string) => {
   return (dispatch: Dispatch<AppActionsType>) => {
@@ -29,14 +35,8 @@ export const userAuthorize = (login: string, password: string) => {
     return axios
       .post(urlUser, { login, password })
       .then((res) => {
-        async () => {
-          try {
-            await AsyncStorage.setItem("token", res.data.token);
-            return console.log("Токен записан");
-          } catch (e) {
-            console.log("Ошибка записи");
-          }
-        };
+        AsyncStorage.setItem("TOKEN", res.data.token);
+        console.log("Токен установлен");
         return dispatch(
           loginSuccess({
             id: res.data.userId,

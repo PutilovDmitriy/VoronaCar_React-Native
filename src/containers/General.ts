@@ -6,7 +6,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { AppActionsType } from "../types/action";
 import { bindActionCreators } from "redux";
 import { voronaGetValue } from "../redux/action/vorona";
-import { serviceCar } from "../redux/action/car";
+import { loginLogout, loginSuccess } from "../redux/action/user";
 
 const mapStateToProps = (state: AppState) => ({
   authorized: state.userReducer.authorized,
@@ -16,6 +16,8 @@ const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AppActionsType>
 ) => ({
   getValueOil: bindActionCreators(voronaGetValue, dispatch),
+  loginSuccess: bindActionCreators(loginSuccess, dispatch),
+  logout: bindActionCreators(loginLogout, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(General);

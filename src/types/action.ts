@@ -16,12 +16,20 @@ export interface LoginSuccess {
   payload: Info;
 }
 
+export interface LoginLogout {
+  type: typeof LoginActions.LOGIN_LOGOUT;
+}
+
 export interface LoginFailure {
   type: typeof LoginActions.LOGIN_FAILURI;
   error: any;
 }
 
-export type LoginActionsType = LoginBegin | LoginSuccess | LoginFailure;
+export type LoginActionsType =
+  | LoginBegin
+  | LoginSuccess
+  | LoginLogout
+  | LoginFailure;
 
 // type CarActions
 
