@@ -85,7 +85,7 @@ const General: React.FunctionComponent<GeneralProps> = ({
         return shiftFinish(shiftId);
       }
     } catch (e) {
-      return console.log("Выход не удался");
+      return console.log("Завершение смены не удалось");
     }
   };
 
