@@ -56,6 +56,17 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  const selectedText = () => {
+    const number = problems.length;
+    const titles = ["проблема", "проблемы", "проблем"];
+    let cases = [2, 0, 1, 1, 1, 2];
+    return titles[
+      number % 100 > 4 && number % 100 < 20
+        ? 2
+        : cases[number % 10 < 5 ? number % 10 : 5]
+    ];
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.problem}>
@@ -92,6 +103,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             onSelectedItemsChange={handleChangeProblems}
             hideSearch={true}
             selectedItems={problems}
+            selectedText={selectedText()}
             confirmText="Подтвердить"
             colors={{ primary: colorGreen }}
           />
