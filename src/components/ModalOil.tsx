@@ -18,6 +18,7 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
 
   const handleSubmit = () => {
     voronaPlus && voronaPlus(Number(value));
+    setValue("");
     handleCloseModalOil && handleCloseModalOil();
   };
   return (

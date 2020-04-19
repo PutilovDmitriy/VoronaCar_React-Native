@@ -3,6 +3,7 @@ import { Car } from "./Car";
 import { CarActions } from "./../redux/action/car";
 import { Info } from "./UserInfo";
 import { LoginActions } from "../redux/action/user";
+import { ShiftActions } from "../redux/action/shift";
 
 // type LoginActions
 
@@ -77,7 +78,35 @@ export type VoronaActionsType =
   | VoronaPlus
   | VoronaMinus;
 
+//type shift
+
+export interface ShiftBegin {
+  type: typeof ShiftActions.SHIFT_BEGIN;
+}
+export interface ShiftStart {
+  type: typeof ShiftActions.SHIFT_START;
+  payload: string;
+}
+export interface ShiftUpdate {
+  type: typeof ShiftActions.SHIFT_UPDATE;
+}
+export interface ShiftFinish {
+  type: typeof ShiftActions.SHIFT_FINISH;
+  payload: string;
+}
+export interface ShiftFailuti {
+  type: typeof ShiftActions.SHIFT_FAILURI;
+}
+
+export type ShiftActionsType =
+  | ShiftBegin
+  | ShiftStart
+  | ShiftUpdate
+  | ShiftFinish
+  | ShiftFailuti;
+
 export type AppActionsType =
   | LoginActionsType
   | CarActionsType
-  | VoronaActionsType;
+  | VoronaActionsType
+  | ShiftActionsType;

@@ -3,6 +3,7 @@ import { Info } from "../../types/UserInfo";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export enum LoginActions {
   LOGIN_BEGIN = "LOGIN_BEGIN",
@@ -28,6 +29,14 @@ export const userAuthorize = (login: string, password: string) => {
     return axios
       .post(urlUser, { login, password })
       .then((res) => {
+        async () => {
+          try {
+            await AsyncStorage.setItem("token", res.data.token);
+            return console.log("Токен записан");
+          } catch (e) {
+            console.log("Ошибка записи");
+          }
+        };
         return dispatch(
           loginSuccess({
             id: res.data.userId,
