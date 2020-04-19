@@ -23,7 +23,9 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   const number: string = route.params.title;
   const problemS: ProblemKey[] = route.params.problem;
 
-  const { serviceCar, shiftId, shiftUpdate } = React.useContext(RouterContext);
+  const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
+    RouterContext
+  );
 
   const handleChangeValue = (text: string) => {
     if (text !== "0" && !isNaN(Number(text))) {
@@ -43,6 +45,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     serviceCar && serviceCar(number, problems);
+    voronaMinus && voronaMinus(Number(value));
     shiftUpdate &&
       shiftUpdate({
         shiftId: shiftId ? shiftId : "0",

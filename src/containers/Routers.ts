@@ -1,4 +1,4 @@
-import { voronaPlusOil } from "./../redux/action/vorona";
+import { voronaPlusOil, voronaMinusOil } from "./../redux/action/vorona";
 import { AppState } from "./../redux/store/index";
 import { connect } from "react-redux";
 import Routers from "../components/Routers";
@@ -19,6 +19,7 @@ const mapDispatchToProps = (
 ) => ({
   getValueOil: bindActionCreators(voronaGetValue, dispatch),
   voronaPlus: bindActionCreators(voronaPlusOil, dispatch),
+  voronaMinus: bindActionCreators(voronaMinusOil, dispatch),
   serviceCar: bindActionCreators(serviceCar, dispatch),
   shiftUpdate: bindActionCreators(updateShift, dispatch),
 });

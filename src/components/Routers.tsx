@@ -18,6 +18,7 @@ interface RoutesProps {
   handleStopShift: () => void;
   getValueOil: () => void;
   voronaPlus: (payload: number) => void;
+  voronaMinus: (payload: number) => void;
   serviceCar: (numder: string, problems: ProblemKey[]) => void;
   shiftId: string;
   shiftUpdate: (info: ShiftUpdateInfo) => {};
@@ -34,6 +35,7 @@ const Routes: React.FC<RoutesProps> = ({
   serviceCar,
   shiftId,
   shiftUpdate,
+  voronaMinus,
 }) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
@@ -58,6 +60,7 @@ const Routes: React.FC<RoutesProps> = ({
         handleCloseModalOil,
         handlePlusOil,
         voronaPlus,
+        voronaMinus,
         serviceCar,
         shiftId,
         shiftUpdate,
