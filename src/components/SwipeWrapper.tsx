@@ -1,7 +1,7 @@
 import React from "react";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { View, StyleSheet, Text, Animated, Image } from "react-native";
-import { colorGren } from "../const";
+import { colorGreen } from "../const";
 import RouterContext from "../contexts/RouterContext";
 import { ProblemKey } from "../types/Car";
 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
-    backgroundColor: colorGren,
+    backgroundColor: colorGreen,
     justifyContent: "flex-end",
   },
   img: {

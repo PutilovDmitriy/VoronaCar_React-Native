@@ -10,8 +10,12 @@ export const urlVorona =
 export const urlShift = "https://pacific-cliffs-72324.herokuapp.com/shift";
 
 /// color
-export const colorGren = "#4ed963"; // нежно зеленый
-
+export const colorGreen = "#4CD964";
+export const colorBlack = "#262626";
+export const colorGrey = "DADADA";
+export const colorDarkGreen = "#00C781";
+export const colorPurple = "#7D4CDB";
+export const colorRed = "#FF4040";
 ///dateformat
 export const dateFormat = require("dateformat");
 

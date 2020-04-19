@@ -11,6 +11,7 @@ import DrawerButton from "./DrawerButton";
 import WorkShift from "./WorkShift";
 import { ProblemKey } from "../types/Car";
 import { ShiftUpdateInfo } from "../types/Shift";
+import { colorPurple } from "../const";
 
 interface RoutesProps {
   valueOil: number;
@@ -88,7 +89,7 @@ const Routes: React.FC<RoutesProps> = ({
                   color: "white",
                 },
                 headerStyle: {
-                  backgroundColor: "#3949ab",
+                  backgroundColor: colorPurple,
                 },
                 headerLeft: () => (
                   <DrawerButton
@@ -109,7 +110,7 @@ const Routes: React.FC<RoutesProps> = ({
                   color: "white",
                 },
                 headerStyle: {
-                  backgroundColor: "#3949ab",
+                  backgroundColor: colorPurple,
                 },
               }}
             />

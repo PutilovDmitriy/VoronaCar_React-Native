@@ -34,13 +34,9 @@ export const voronaMinus = (payload: number): AppActionsType => {
 export const voronaGetValue = () => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(voronaBegin());
-    console.log("vorona");
-
     return axios
       .get(urlVorona)
       .then((res) => {
-        console.log(res.data);
-
         return dispatch(voronaSuccess(res.data));
       })
       .catch((error) => {

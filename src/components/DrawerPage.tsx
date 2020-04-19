@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import RouterContext from "../contexts/RouterContext";
+import { colorBlack, colorRed } from "../const";
 
 interface IDrawerPageProps {
   isModalOil: boolean;
@@ -104,10 +105,12 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 3,
-    alignItems: "center",
+    alignItems: "flex-start",
+    paddingLeft: 20,
     justifyContent: "center",
   },
   infoLine: {
+    marginTop: 10,
     flexDirection: "row",
     height: 50,
     backgroundColor: "#000",
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     width: 250,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#D22525",
+    backgroundColor: colorRed,
     borderRadius: 10,
   },
 });

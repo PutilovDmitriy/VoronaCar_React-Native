@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Button, AsyncStorage } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { colorGren } from "../const";
+import { colorGreen } from "../const";
 interface IWorkShiftProps {
   handleStartShift: () => void;
   logout: () => void;
@@ -39,7 +39,7 @@ const WorkShift: React.FunctionComponent<IWorkShiftProps> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.logout}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout}>
           <Text>Сменить аккаунт</Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 100,
-    backgroundColor: colorGren,
+    backgroundColor: colorGreen,
     justifyContent: "center",
   },
   text: {

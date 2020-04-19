@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { Info } from "../types/UserInfo";
 import { Flow } from "react-native-animated-spinkit";
-import { colorGren } from "../const";
+import { colorGreen, colorDarkGreen, colorRed } from "../const";
 
 interface IAppProps {
   userInfo: Info;
@@ -52,12 +52,14 @@ const Auth: React.FC<IAppProps> = ({ userAuthorize, loading, error }) => {
       {error && <Text style={styles.error}>Неверный логин или пароль</Text>}
 
       {!loading ? (
-        <Button
-          title=" Войти "
-          onPress={logIn}
-          disabled={!isValid}
-          color="#3949ab"
-        />
+        <View style={styles.button}>
+          <Button
+            title="Войти"
+            onPress={logIn}
+            disabled={!isValid}
+            color={colorDarkGreen}
+          />
+        </View>
       ) : (
         <View style={styles.loading}>
           <Flow size={30} color="#fff" />
@@ -82,16 +84,23 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     fontSize: 20,
     marginBottom: 10,
-    width: "60%",
+    paddingLeft: 30,
+    width: "95%",
+    marginVertical: 20,
+  },
+  button: {
+    width: "95%",
+    marginTop: 20,
   },
   error: {
-    color: "red",
+    color: colorRed,
     marginBottom: 10,
   },
   loading: {
-    backgroundColor: "#3949ab",
+    backgroundColor: colorDarkGreen,
+    marginTop: 20,
     height: 35,
-    width: 70,
+    width: "95%",
     justifyContent: "center",
     alignItems: "center",
   },

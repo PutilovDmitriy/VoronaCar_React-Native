@@ -16,6 +16,7 @@ interface GeneralProps {
   shiftStart: (userId: string) => void;
   shiftId: string;
   shiftFinish: (shiftId: string) => void;
+  setShiftId: (shiftId: string) => void;
 }
 
 const General: React.FunctionComponent<GeneralProps> = ({
@@ -27,6 +28,7 @@ const General: React.FunctionComponent<GeneralProps> = ({
   userId,
   shiftFinish,
   shiftId,
+  setShiftId,
 }) => {
   const [isShift, setShift] = React.useState<boolean>(false);
 
@@ -50,8 +52,22 @@ const General: React.FunctionComponent<GeneralProps> = ({
     }
   };
 
+  const checkShiftId = async () => {
+    try {
+      const value = await AsyncStorage.getItem("SHIFT_ID");
+      console.log("shiftID = " + value);
+
+      if (value !== null) {
+        setShiftId(value);
+      }
+    } catch (e) {
+      console.log("Ошибка проверки shiftId");
+    }
+  };
+
   React.useEffect(() => {
     checkToken();
+    checkShiftId();
   }, []);
 
   const handleStartShift = () => {

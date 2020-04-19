@@ -1,4 +1,4 @@
-import { startShift, finishShift } from "./../redux/action/shift";
+import { startShift, finishShift, shiftStart } from "./../redux/action/shift";
 import { AppState } from "./../redux/store/index";
 import { connect } from "react-redux";
 import General from "../components/General";
@@ -22,6 +22,7 @@ const mapDispatchToProps = (
   logout: bindActionCreators(loginLogout, dispatch),
   shiftStart: bindActionCreators(startShift, dispatch),
   shiftFinish: bindActionCreators(finishShift, dispatch),
+  setShiftId: bindActionCreators(shiftStart, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(General);

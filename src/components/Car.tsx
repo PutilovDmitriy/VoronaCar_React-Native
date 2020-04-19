@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { urlsProblem, problemsItem } from "../const";
+import { urlsProblem, problemsItem, colorGreen } from "../const";
 import { ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
 
@@ -89,10 +89,12 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             onSelectedItemsChange={handleChangeProblems}
             hideSearch={true}
             selectedItems={problems}
+            confirmText="Подтвердить"
+            colors={{ primary: colorGreen }}
           />
         </View>
         <View style={styles.button}>
-          <Button title="Отправить" onPress={handleSubmit} />
+          <Button title="Отправить" onPress={handleSubmit} color={colorGreen} />
         </View>
       </View>
     </View>

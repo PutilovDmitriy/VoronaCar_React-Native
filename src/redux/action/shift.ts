@@ -3,6 +3,7 @@ import { AppActionsType } from "./../../types/action";
 import { ShiftUpdateInfo } from "../../types/Shift";
 import { Dispatch } from "react";
 import { urlShift } from "../../const";
+import { AsyncStorage } from "react-native";
 
 export enum ShiftActions {
   SHIFT_BEGIN = "SHIFT_BEGIN",
@@ -42,6 +43,7 @@ export const startShift = (userId: string) => {
     return axios
       .post(url, { userId: userId })
       .then((res) => {
+        AsyncStorage.setItem("SHIFT_ID", res.data.id);
         return dispatch(shiftStart(res.data.id));
       })
       .catch((error) => {

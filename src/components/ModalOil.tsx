@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Modal, View, Text, StyleSheet, Button, TextInput } from "react-native";
 import RouterContext from "../contexts/RouterContext";
+import { colorBlack, colorGreen } from "../const";
 
 interface IModalOilProps {}
 
@@ -41,7 +42,11 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
             onChangeText={handleChangeValue}
           />
           <View style={styles.button}>
-            <Button title="Заправить" onPress={handleSubmit} />
+            <Button
+              title="Заправить"
+              onPress={handleSubmit}
+              color={colorGreen}
+            />
           </View>
         </View>
       </View>
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     width: "50%",
     height: 40,
     borderBottomWidth: 2,
-    borderBottomColor: "black",
+    borderBottomColor: colorBlack,
   },
   button: {
     width: "100%",

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
+import { colorDarkGreen, colorPurple } from "../const";
 
 interface IAppProps {}
 
@@ -19,7 +20,7 @@ const style = StyleSheet.create({
     height: 80,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#3949ab",
+    backgroundColor: colorPurple,
     paddingTop: 25,
   },
   text: {

@@ -6,7 +6,7 @@ import { FlatList } from "react-native-gesture-handler";
 import CarLine from "./CarLine";
 import { Car } from "../types/Car";
 import { Circle } from "react-native-animated-spinkit";
-import { colorGren } from "../const";
+import { colorGreen } from "../const";
 import ModalOil from "./ModalOil";
 
 interface HomeProps {
@@ -34,7 +34,7 @@ const Home: React.FC<HomeProps> = ({
 
   return loading ? (
     <View style={styles.loading}>
-      <Circle size={100} color={colorGren} />
+      <Circle size={100} color={colorGreen} />
     </View>
   ) : (
     <View>
