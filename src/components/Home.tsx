@@ -32,10 +32,6 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
-  console.log("====================================");
-  console.log(carData);
-  console.log("====================================");
-
   return loading ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGren} />

@@ -7,9 +7,11 @@ import { AppActionsType } from "../types/action";
 import { bindActionCreators } from "redux";
 import { voronaGetValue } from "../redux/action/vorona";
 import { serviceCar } from "../redux/action/car";
+import { updateShift } from "../redux/action/shift";
 
 const mapStateToProps = (state: AppState) => ({
   valueOil: state.voronaReducer.value,
+  shiftId: state.shiftReducer.info.shiftId,
 });
 
 const mapDispatchToProps = (
@@ -18,6 +20,7 @@ const mapDispatchToProps = (
   getValueOil: bindActionCreators(voronaGetValue, dispatch),
   voronaPlus: bindActionCreators(voronaPlusOil, dispatch),
   serviceCar: bindActionCreators(serviceCar, dispatch),
+  shiftUpdate: bindActionCreators(updateShift, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Routers);

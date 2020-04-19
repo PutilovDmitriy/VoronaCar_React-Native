@@ -1,12 +1,22 @@
 import { Model } from "./../types/Model";
 import { Problem, ProblemKey } from "../types/Car";
 
+//urls http
+
 export const urlUser = "https://pacific-cliffs-72324.herokuapp.com/auth/login";
 export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car";
 export const urlVorona =
   "https://pacific-cliffs-72324.herokuapp.com/car/vorona";
+export const urlShift = "https://pacific-cliffs-72324.herokuapp.com/shift";
+
+/// color
 export const colorGren = "#4ed963"; // нежно зеленый
+
+///dateformat
 export const dateFormat = require("dateformat");
+
+//urls
+
 export const urlsLogo = (key: Model) => {
   switch (key) {
     case "R":

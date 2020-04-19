@@ -1,4 +1,9 @@
+import axios from "axios";
 import { AppActionsType } from "./../../types/action";
+import { ShiftUpdateInfo } from "../../types/Shift";
+import { Dispatch } from "react";
+import { urlShift } from "../../const";
+
 export enum ShiftActions {
   SHIFT_BEGIN = "SHIFT_BEGIN",
   SHIFT_START = "SHIFT_START",
@@ -16,15 +21,63 @@ export const shiftStart = (payload: string): AppActionsType => ({
   payload,
 });
 
-export const shiftUpdate = (): AppActionsType => ({
+export const shiftUpdate = (payload: ShiftUpdateInfo): AppActionsType => ({
   type: ShiftActions.SHIFT_UPDATE,
-});
-
-export const shiftFinish = (payload: string): AppActionsType => ({
-  type: ShiftActions.SHIFT_FINISH,
   payload,
 });
 
-export const shiftFailuri = (): AppActionsType => ({
-  type: ShiftActions.SHIFT_FAILURI,
+export const shiftFinish = (): AppActionsType => ({
+  type: ShiftActions.SHIFT_FINISH,
 });
+
+export const shiftFailuri = (payload: any): AppActionsType => ({
+  type: ShiftActions.SHIFT_FAILURI,
+  payload,
+});
+
+export const startShift = (userId: string) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(shiftBegin());
+    const url = urlShift + "/start";
+    return axios
+      .post(url, { userId: userId })
+      .then((res) => {
+        return dispatch(shiftStart(res.data.id));
+      })
+      .catch((error) => {
+        dispatch(shiftFailuri(error.response.data.message));
+      });
+  };
+};
+
+export const updateShift = (info: ShiftUpdateInfo) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(shiftBegin());
+    console.log(info);
+    const url = urlShift + "/update";
+    return axios
+      .put(url, info)
+      .then((res) => {
+        console.log(res.data.message);
+        return dispatch(shiftUpdate(info));
+      })
+      .catch((error) => {
+        dispatch(shiftFailuri(error.response.data.message));
+      });
+  };
+};
+
+export const finishShift = (shiftId: string) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(shiftBegin());
+    const url = urlShift + "/finish";
+    return axios
+      .put(url, { shiftId })
+      .then((res) => {
+        return dispatch(shiftFinish());
+      })
+      .catch((error) => {
+        dispatch(shiftFailuri(error.response.data.message));
+      });
+  };
+};

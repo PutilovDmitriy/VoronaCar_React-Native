@@ -1,3 +1,4 @@
+import { shiftReducer } from "./shift";
 import { carReducer } from "./car";
 import { userReducer } from "./user";
 import { voronaReducer } from "./vorona";
@@ -7,4 +8,5 @@ export default combineReducers({
   userReducer,
   carReducer,
   voronaReducer,
+  shiftReducer,
 });

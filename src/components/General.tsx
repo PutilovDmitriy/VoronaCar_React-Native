@@ -12,6 +12,10 @@ interface GeneralProps {
   getValueOil: () => void;
   loginSuccess: (info: Info) => void;
   logout: () => void;
+  userId: string;
+  shiftStart: (userId: string) => void;
+  shiftId: string;
+  shiftFinish: (shiftId: string) => void;
 }
 
 const General: React.FunctionComponent<GeneralProps> = ({
@@ -19,6 +23,10 @@ const General: React.FunctionComponent<GeneralProps> = ({
   getValueOil,
   logout,
   loginSuccess,
+  shiftStart,
+  userId,
+  shiftFinish,
+  shiftId,
 }) => {
   const [isShift, setShift] = React.useState<boolean>(false);
 
@@ -27,7 +35,6 @@ const General: React.FunctionComponent<GeneralProps> = ({
   }, []);
 
   const checkToken = async () => {
-    console.log("hello");
     try {
       const value = await AsyncStorage.getItem("TOKEN");
       if (value !== null) {
@@ -48,10 +55,12 @@ const General: React.FunctionComponent<GeneralProps> = ({
   }, []);
 
   const handleStartShift = () => {
+    shiftStart(userId);
     setShift(true);
   };
 
   const handleStopShift = () => {
+    shiftFinish(shiftId);
     setShift(false);
   };
 

@@ -10,6 +10,7 @@ import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "./DrawerButton";
 import WorkShift from "./WorkShift";
 import { ProblemKey } from "../types/Car";
+import { ShiftUpdateInfo } from "../types/Shift";
 
 interface RoutesProps {
   valueOil: number;
@@ -17,6 +18,8 @@ interface RoutesProps {
   getValueOil: () => void;
   voronaPlus: (payload: number) => void;
   serviceCar: (numder: string, problems: ProblemKey[]) => void;
+  shiftId: string;
+  shiftUpdate: (info: ShiftUpdateInfo) => {};
 }
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -28,6 +31,8 @@ const Routes: React.FC<RoutesProps> = ({
   valueOil,
   voronaPlus,
   serviceCar,
+  shiftId,
+  shiftUpdate,
 }) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
@@ -53,6 +58,8 @@ const Routes: React.FC<RoutesProps> = ({
         handlePlusOil,
         voronaPlus,
         serviceCar,
+        shiftId,
+        shiftUpdate,
       }}
     >
       <DrawerLayout

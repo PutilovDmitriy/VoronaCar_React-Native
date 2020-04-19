@@ -42,5 +42,3 @@ export const voronaReducer = (state = initialState, action: AppActionsType) => {
       return state;
   }
 };
-
-export default voronaReducer;

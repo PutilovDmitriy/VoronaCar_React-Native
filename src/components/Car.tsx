@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { urlsProblem, problemsItem } from "../const";
-import { Problem, ProblemKey } from "../types/Car";
+import { ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
 
 interface IAppProps {
@@ -17,13 +17,13 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
     });
   }, [navigation, route.params.title]);
 
-  const [value, setValue] = React.useState<string>();
-  const [wash, setWash] = React.useState<string>();
+  const [value, setValue] = React.useState<string>("");
+  const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
   const number: string = route.params.title;
   const problemS: ProblemKey[] = route.params.problem;
 
-  const { serviceCar } = React.useContext(RouterContext);
+  const { serviceCar, shiftId, shiftUpdate } = React.useContext(RouterContext);
 
   const handleChangeValue = (text: string) => {
     if (text !== "0" && !isNaN(Number(text))) {
@@ -43,6 +43,13 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
 
   const handleSubmit = () => {
     serviceCar && serviceCar(number, problems);
+    shiftUpdate &&
+      shiftUpdate({
+        shiftId: shiftId ? shiftId : "0",
+        carNumber: number,
+        value: value,
+        money: wash,
+      });
     navigation.goBack();
   };
 
@@ -58,7 +65,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
         ))}
       </View>
       <View style={styles.form}>
-        <Text>Заправка</Text>
+        <Text style={styles.label}>Заправка</Text>
         <TextInput
           style={styles.input}
           placeholder="Литры"
@@ -66,7 +73,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
           value={value}
           onChangeText={handleChangeValue}
         />
-        <Text>Мойка</Text>
+        <Text style={styles.label}>Мойка</Text>
         <TextInput
           style={styles.input}
           placeholder="Сумма"
@@ -84,7 +91,9 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             selectedItems={problems}
           />
         </View>
-        <Button title="Отправить" onPress={handleSubmit} />
+        <View style={styles.button}>
+          <Button title="Отправить" onPress={handleSubmit} />
+        </View>
       </View>
     </View>
   );
@@ -100,11 +109,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   form: {
+    width: "95%",
     alignItems: "center",
   },
+  label: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 25,
+    marginBottom: 10,
+    alignSelf: "flex-start",
+    marginLeft: "15%",
+  },
   input: {
-    width: 100,
-    borderBottomColor: "black",
+    width: "100%",
+    fontSize: 20,
+    paddingLeft: "15%",
+    borderBottomColor: "#333",
     borderBottomWidth: 2,
   },
   problem: {
@@ -117,6 +137,13 @@ const styles = StyleSheet.create({
     height: 50,
   },
   select: {
-    width: 200,
+    marginTop: 25,
+    width: "100%",
+    borderWidth: 2,
+    borderColor: "#333",
+  },
+  button: {
+    marginTop: 20,
+    width: "100%",
   },
 });

@@ -4,6 +4,7 @@ import { CarActions } from "./../redux/action/car";
 import { Info } from "./UserInfo";
 import { LoginActions } from "../redux/action/user";
 import { ShiftActions } from "../redux/action/shift";
+import { ShiftUpdateInfo } from "./Shift";
 
 // type LoginActions
 
@@ -97,13 +98,14 @@ export interface ShiftStart {
 }
 export interface ShiftUpdate {
   type: typeof ShiftActions.SHIFT_UPDATE;
+  payload: ShiftUpdateInfo;
 }
 export interface ShiftFinish {
   type: typeof ShiftActions.SHIFT_FINISH;
-  payload: string;
 }
 export interface ShiftFailuti {
   type: typeof ShiftActions.SHIFT_FAILURI;
+  payload: any;
 }
 
 export type ShiftActionsType =

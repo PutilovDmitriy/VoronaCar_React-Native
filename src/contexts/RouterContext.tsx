@@ -1,5 +1,6 @@
 import React from "react";
 import { ProblemKey } from "../types/Car";
+import { ShiftUpdateInfo } from "../types/Shift";
 
 type Context = {
   isModalOil: boolean;
@@ -7,6 +8,8 @@ type Context = {
   handlePlusOil: (value: number) => void;
   serviceCar: (numder: string, problems: ProblemKey[]) => void;
   voronaPlus: (payload: number) => void;
+  shiftId: string;
+  shiftUpdate: (info: ShiftUpdateInfo) => {};
 };
 
 const RouterContext = React.createContext<Partial<Context>>({});

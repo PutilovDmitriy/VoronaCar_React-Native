@@ -39,7 +39,9 @@ const WorkShift: React.FunctionComponent<IWorkShiftProps> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.logout}>
-        <Button title="Сменить аккаунт" onPress={handleLogout} />
+        <TouchableOpacity>
+          <Text>Сменить аккаунт</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -66,6 +68,10 @@ const styles = StyleSheet.create({
   logout: {
     position: "absolute",
     top: 40,
-    right: 10,
+    right: 15,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
 });
