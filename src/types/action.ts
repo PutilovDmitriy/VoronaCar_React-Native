@@ -38,6 +38,10 @@ export interface CarBegin {
   type: typeof CarActions.CAR_BEGIN;
 }
 
+export interface CarServiceBegin {
+  type: typeof CarActions.CAR_SERVICE_BEGIN;
+}
+
 export interface CarSuccess {
   type: typeof CarActions.CAR_SUCCESS;
   payload: Car[];
@@ -52,7 +56,12 @@ export interface CarFailure {
   type: typeof CarActions.CAR_FAILURI;
   error: any;
 }
-export type CarActionsType = CarBegin | CarSuccess | CarUpdate | CarFailure;
+export type CarActionsType =
+  | CarBegin
+  | CarServiceBegin
+  | CarSuccess
+  | CarUpdate
+  | CarFailure;
 
 //type Vorona
 

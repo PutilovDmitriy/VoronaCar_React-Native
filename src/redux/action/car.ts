@@ -6,6 +6,7 @@ import { Dispatch } from "react";
 
 export enum CarActions {
   CAR_BEGIN = "CAR_BEGIN",
+  CAR_SERVICE_BEGIN = "CAR_SERVICE_BEGIN",
   CAR_SUCCESS = "CAR_SUCCESS",
   CAR_FAILURI = "CAR_FAILURI",
   CAR_UPDATE = "CAR_UPDATE",
@@ -13,6 +14,10 @@ export enum CarActions {
 
 export const carBegin = (): AppActionsType => {
   return { type: CarActions.CAR_BEGIN };
+};
+
+export const carServiceBegin = (): AppActionsType => {
+  return { type: CarActions.CAR_SERVICE_BEGIN };
 };
 
 export const carSuccess = (payload: Car[]): AppActionsType => {
@@ -44,7 +49,7 @@ export const getCarInfo = () => {
 
 export const serviceCar = (number: string, problems: ProblemKey[]) => {
   return (dispatch: Dispatch<AppActionsType>) => {
-    //dispatch(carBegin());
+    dispatch(carServiceBegin());
     const url = urlCar + "/services";
     return axios
       .put(url, { number, problems })
