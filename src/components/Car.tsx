@@ -15,13 +15,14 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
     navigation.setOptions({
       headerTitle: route.params.title === "" ? "Car" : route.params.title,
     });
+    setProblems(route.params.problem);
   }, [navigation, route.params.title]);
 
   const [value, setValue] = React.useState<string>("");
   const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
   const number: string = route.params.title;
-  const problemS: ProblemKey[] = route.params.problem;
+  // const problemS: ProblemKey[] = route.params.problem;
 
   const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
     RouterContext
@@ -70,7 +71,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.problem}>
-        {problemS.map((item, index) => (
+        {problems.map((item, index) => (
           <Image
             key={index}
             source={urlsProblem(item)}
