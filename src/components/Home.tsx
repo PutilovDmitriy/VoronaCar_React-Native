@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useContext } from "react";
-import { View, StyleSheet, Modal, Text } from "react-native";
+import { View, StyleSheet, Modal, Text, RefreshControl } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../types/RoutesParamList";
 import { FlatList } from "react-native-gesture-handler";
@@ -24,6 +24,7 @@ const Home: React.FC<HomeProps> = ({
   error,
   getCarInfo,
 }) => {
+  const [firstFetch, setFirstFetch] = React.useState<boolean>(true);
   const initFetch = useCallback(() => {
     getCarInfo();
   }, [getCarInfo]);
@@ -32,7 +33,12 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   }, [initFetch]);
 
-  return loading ? (
+  const updateList = () => {
+    setFirstFetch(false);
+    initFetch();
+  };
+
+  return loading && firstFetch ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGreen} />
     </View>
@@ -52,6 +58,9 @@ const Home: React.FC<HomeProps> = ({
           />
         )}
         keyExtractor={(item) => item.number}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={updateList} />
+        }
       />
       <ModalOil />
     </View>
