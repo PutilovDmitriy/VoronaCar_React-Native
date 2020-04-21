@@ -21,7 +21,6 @@ const Home: React.FC<HomeProps> = ({
   navigation,
   carData,
   loading,
-  error,
   getCarInfo,
 }) => {
   const [firstFetch, setFirstFetch] = React.useState<boolean>(true);

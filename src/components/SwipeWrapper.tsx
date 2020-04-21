@@ -35,12 +35,12 @@ const SwipeWrapper: React.FC<Props> = ({ number, problems, children }) => {
   };
 
   const skipCar = () => {
+    serviceCar && serviceCar(number, problems);
     setTimeout(() => {
       if (swipeableEl !== null && swipeableEl.current !== null) {
         swipeableEl.current.close();
       }
-    }, 2000);
-    serviceCar && serviceCar(number, problems);
+    }, 1000);
   };
   return (
     <Swipeable
