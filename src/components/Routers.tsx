@@ -19,7 +19,11 @@ interface RoutesProps {
   getValueOil: () => void;
   voronaPlus: (payload: number) => void;
   voronaMinus: (payload: number) => void;
-  serviceCar: (numder: string, problems: ProblemKey[]) => void;
+  serviceCar: (
+    numder: string,
+    problems: ProblemKey[],
+    comments: string
+  ) => void;
   shiftId: string;
   shiftUpdate: (info: ShiftUpdateInfo) => {};
 }

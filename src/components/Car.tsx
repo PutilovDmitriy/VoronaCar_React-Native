@@ -4,6 +4,11 @@ import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { urlsProblem, problemsItem, colorGreen } from "../const";
 import { ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+import ModalComments from "./ModalComments";
 
 interface IAppProps {
   navigation: any;
@@ -16,13 +21,15 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
       headerTitle: route.params.title === "" ? "Car" : route.params.title,
     });
     setProblems(route.params.problem);
+    setComments(route.params.comments);
   }, [navigation, route.params.title]);
 
   const [value, setValue] = React.useState<string>("");
   const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
+  const [comments, setComments] = React.useState("");
+  const [isModalComments, setModalCommenst] = React.useState(false);
   const number: string = route.params.title;
-  // const problemS: ProblemKey[] = route.params.problem;
 
   const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
     RouterContext
@@ -45,7 +52,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   };
 
   const handleSubmit = () => {
-    serviceCar && serviceCar(number, problems);
+    serviceCar && serviceCar(number, problems, comments);
     voronaMinus && voronaMinus(Number(value));
     shiftUpdate &&
       shiftUpdate({
@@ -109,10 +116,35 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             colors={{ primary: colorGreen }}
           />
         </View>
+        <View style={styles.label}>
+          <TouchableOpacity
+            activeOpacity={0.4}
+            onPress={() => setModalCommenst(true)}
+          >
+            <View style={styles.lineComments}>
+              <Text style={styles.lableComments}>Комментарий:</Text>
+              <Image
+                source={require("../../public/img/edit.png")}
+                style={{ width: 30, height: 30 }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={{ alignSelf: "flex-start", fontSize: 16 }}>
+          {comments}
+        </Text>
         <View style={styles.button}>
           <Button title="Отправить" onPress={handleSubmit} color={colorGreen} />
         </View>
       </View>
+      <ModalComments
+        isModal={isModalComments}
+        closeModal={() => setModalCommenst(false)}
+        comments={comments}
+        handleChangeComments={(text) => {
+          setComments(text);
+        }}
+      />
     </View>
   );
 };
@@ -129,6 +161,7 @@ const styles = StyleSheet.create({
   form: {
     width: "95%",
     alignItems: "center",
+    marginTop: -70,
   },
   label: {
     fontSize: 20,
@@ -159,6 +192,17 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 2,
     borderColor: "#333",
+  },
+  lineComments: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "flex-start",
+  },
+  lableComments: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginRight: 15,
   },
   button: {
     marginTop: 20,

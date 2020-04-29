@@ -7,7 +7,11 @@ type Context = {
   handleCloseModalOil: () => void;
   handlePlusOil: (value: number) => void;
   voronaMinus: (payload: number) => void;
-  serviceCar: (numder: string, problems: ProblemKey[]) => void;
+  serviceCar: (
+    numder: string,
+    problems: ProblemKey[],
+    comments: string
+  ) => void;
   voronaPlus: (payload: number) => void;
   shiftId: string;
   shiftUpdate: (info: ShiftUpdateInfo) => {};
