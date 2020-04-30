@@ -1,6 +1,7 @@
-import { Problem, ProblemKey } from "./Car";
+import { ProblemKey, Car } from "./Car";
 export type RoutesParamList = {
   Home: undefined;
-  Car: { title: string; problem: ProblemKey[]; comments: string };
+  Car: { car: Car };
   WorkShift: undefined;
+  CarInfo: { car: Car };
 };

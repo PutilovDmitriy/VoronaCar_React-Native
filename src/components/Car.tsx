@@ -9,27 +9,30 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 import ModalComments from "./ModalComments";
+import { RouteProp } from "@react-navigation/native";
+import { RoutesParamList } from "../types/RoutesParamList";
 
 interface IAppProps {
   navigation: any;
-  route: any;
+  route: RouteProp<RoutesParamList, "Car">;
 }
 
 const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: route.params.title === "" ? "Car" : route.params.title,
+      headerTitle:
+        route.params.car.number === "" ? "Car" : route.params.car.number,
     });
-    setProblems(route.params.problem);
-    setComments(route.params.comments);
-  }, [navigation, route.params.title]);
+    setProblems(route.params.car.problems);
+    setComments(route.params.car.comments);
+  }, [navigation, route.params.car]);
 
   const [value, setValue] = React.useState<string>("");
   const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
   const [comments, setComments] = React.useState("");
   const [isModalComments, setModalCommenst] = React.useState(false);
-  const number: string = route.params.title;
+  const number: string = route.params.car.number;
 
   const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
     RouterContext
