@@ -8,11 +8,13 @@ import DrawerPage from "./DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "./DrawerButton";
-import WorkShift from "./WorkShift";
 import { ProblemKey } from "../types/Car";
 import { ShiftUpdateInfo } from "../types/Shift";
 import { colorPurple } from "../const";
 import { Info } from "../types/UserInfo";
+import { Image } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import CarInfo from "./CarInfo";
 
 interface RoutesProps {
   valueOil: number;
@@ -23,6 +25,7 @@ interface RoutesProps {
   serviceCar: (
     numder: string,
     problems: ProblemKey[],
+    comments: string,
     isWashed?: boolean
   ) => void;
   shiftId: string;
@@ -114,7 +117,7 @@ const Routes: React.FC<RoutesProps> = ({
             <Stack.Screen
               name="Car"
               component={Car}
-              options={{
+              options={({ navigation, route }) => ({
                 headerTitleAlign: "center",
                 headerTitle: "A000AA ",
                 headerTitleStyle: {
@@ -123,7 +126,36 @@ const Routes: React.FC<RoutesProps> = ({
                 headerStyle: {
                   backgroundColor: colorPurple,
                 },
-              }}
+                headerRight: () => (
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => {
+                      navigation.navigate("CarInfo", {
+                        car: route.params.car,
+                      });
+                    }}
+                  >
+                    <Image
+                      source={require("../../public/img/info.png")}
+                      style={{ marginRight: 10 }}
+                    />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="CarInfo"
+              component={CarInfo}
+              options={({ navigation }) => ({
+                headerTitleAlign: "center",
+                headerTitle: "A000AA ",
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerStyle: {
+                  backgroundColor: colorPurple,
+                },
+              })}
             />
           </Stack.Navigator>
         </NavigationContainer>

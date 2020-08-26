@@ -5,27 +5,37 @@ import CheckBox from "@react-native-community/checkbox";
 import { urlsProblem, problemsItem, colorGreen, dateFormat } from "../const";
 import { ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+import ModalComments from "./ModalComments";
+import { RouteProp } from "@react-navigation/native";
+import { RoutesParamList } from "../types/RoutesParamList";
 
 interface IAppProps {
   navigation: any;
-  route: any;
+  route: RouteProp<RoutesParamList, "Car">;
 }
 
 const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: route.params.title === "" ? "Car" : route.params.title,
+      headerTitle:
+        route.params.car.number === "" ? "Car" : route.params.car.number,
     });
-    setProblems(route.params.problem);
-  }, [navigation, route.params.title]);
+    setProblems(route.params.car.problems);
+    setComments(route.params.car.comments);
+  }, [navigation, route.params.car]);
 
   const [value, setValue] = React.useState<string>("");
   const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
-  const number: string = route.params.title;
-  const lastWashDate = route.params.lastWashDate;
+  const number: string = route.params.car.number;
+  const lastWashDate = route.params.car.lastWashDate;
   const [gasStation, setGasStation] = React.useState<boolean>(false);
-  // const problemS: ProblemKey[] = route.params.problem;
+  const [comments, setComments] = React.useState("");
+  const [isModalComments, setModalCommenst] = React.useState(false);
 
   const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
     RouterContext
@@ -48,7 +58,7 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   };
 
   const handleSubmit = () => {
-    serviceCar && serviceCar(number, problems, !!wash.trim());
+    serviceCar && serviceCar(number, problems, comments, !!wash.trim());
     if (!gasStation) {
       voronaMinus && voronaMinus(Number(value));
     }
@@ -129,10 +139,35 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
             colors={{ primary: colorGreen }}
           />
         </View>
+        <View style={styles.label}>
+          <TouchableOpacity
+            activeOpacity={0.4}
+            onPress={() => setModalCommenst(true)}
+          >
+            <View style={styles.lineComments}>
+              <Text style={styles.lableComments}>Комментарий:</Text>
+              <Image
+                source={require("../../public/img/edit.png")}
+                style={{ width: 30, height: 30 }}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={{ alignSelf: "flex-start", fontSize: 16 }}>
+          {comments}
+        </Text>
         <View style={styles.button}>
           <Button title="Отправить" onPress={handleSubmit} color={colorGreen} />
         </View>
       </View>
+      <ModalComments
+        isModal={isModalComments}
+        closeModal={() => setModalCommenst(false)}
+        comments={comments}
+        handleChangeComments={(text) => {
+          setComments(text);
+        }}
+      />
     </View>
   );
 };
@@ -149,6 +184,7 @@ const styles = StyleSheet.create({
   form: {
     width: "95%",
     alignItems: "center",
+    marginTop: -70,
   },
   label: {
     fontSize: 20,
@@ -203,6 +239,17 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 2,
     borderColor: "#333",
+  },
+  lineComments: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "flex-start",
+  },
+  lableComments: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginRight: 15,
   },
   button: {
     marginTop: 20,

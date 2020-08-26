@@ -8,6 +8,7 @@ export interface Car {
   problems: ProblemKey[];
   isRepairing: boolean;
   comments: string;
+  info: CarInfo;
 }
 
 export interface Problem {
@@ -16,3 +17,13 @@ export interface Problem {
 }
 
 export type ProblemKey = "D" | "A" | "F" | "WT" | "C" | "M" | "EB" | "J";
+
+export interface CarInfo {
+  VIN: string;
+  STS: string;
+  OSAGO: string;
+  dateOSAGO: Date | string;
+  code: string;
+  tel: string;
+  IMEI: string;
+}

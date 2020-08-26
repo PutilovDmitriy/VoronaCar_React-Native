@@ -50,13 +50,14 @@ export const getCarInfo = () => {
 export const serviceCar = (
   number: string,
   problems: ProblemKey[],
+  comments: string,
   isWashed?: boolean
 ) => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(carServiceBegin());
     const url = urlCar + "/services";
     return axios
-      .put(url, { number, problems, isWashed })
+      .put(url, { number, problems, comments, isWashed })
       .then((res) => {
         return dispatch(carUpdate(res.data.info));
       })
