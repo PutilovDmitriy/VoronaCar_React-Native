@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import RouterContext from "../contexts/RouterContext";
 import { colorBlack, colorRed } from "../const";
+import { Info } from "../types/UserInfo";
 
 interface IDrawerPageProps {
   isModalOil: boolean;
@@ -10,6 +11,7 @@ interface IDrawerPageProps {
   handleCloseDrawer: () => void;
   handleStopShift: () => void;
   valueOil: number;
+  user: Info;
 }
 
 const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
@@ -18,6 +20,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   handleCloseDrawer,
   handleStopShift,
   valueOil,
+  user,
 }) => {
   const handlePressOilBlock = () => {
     handleOpenModalOil();
@@ -35,8 +38,8 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
           />
         </View>
         <View style={styles.name}>
-          <Text style={styles.text}>Путилов Дмитрий</Text>
-          <Text style={styles.text}>+7991255722</Text>
+          <Text style={styles.text}>{user.name}</Text>
+          <Text style={styles.text}>{user.login}</Text>
         </View>
       </View>
       <TouchableHighlight onPress={handlePressOilBlock}>
@@ -48,7 +51,9 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
             />
           </View>
           <View style={styles.textBlock}>
-            <Text style={styles.textCategory}>Остаток: {valueOil}</Text>
+            <Text style={styles.textCategory}>
+              Остаток: {valueOil.toFixed(1)}
+            </Text>
           </View>
           <View style={styles.alertOil}>
             {valueOil < 50 && (

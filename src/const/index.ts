@@ -41,8 +41,8 @@ export const urlsProblem = (key: ProblemKey) => {
       return require("../../public/img/doctor.png");
     case "F":
       return require("../../public/img/fire.png");
-    case "W":
-      return require("../../public/img/wheel.png");
+    case "WT":
+      return require("../../public/img/warning.png");
     case "C":
       return require("../../public/img/coolant.png");
     case "M":
@@ -60,7 +60,7 @@ export const problemsItem: Problem[] = [
   { id: "D", name: "Документы" },
   { id: "A", name: "Аптечка" },
   { id: "F", name: "Огнетушитель" },
-  { id: "W", name: "Запаска" },
+  { id: "WT", name: "Аварийный знак" },
   { id: "C", name: "Тосол" },
   { id: "M", name: "Масло" },
   { id: "EB", name: "Аккумулятор" },

@@ -1,7 +1,8 @@
 import React from "react";
 import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { urlsProblem, problemsItem, colorGreen } from "../const";
+import CheckBox from "@react-native-community/checkbox";
+import { urlsProblem, problemsItem, colorGreen, dateFormat } from "../const";
 import { ProblemKey } from "../types/Car";
 import RouterContext from "../contexts/RouterContext";
 
@@ -22,6 +23,8 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   const [wash, setWash] = React.useState<string>("");
   const [problems, setProblems] = React.useState<ProblemKey[]>([]);
   const number: string = route.params.title;
+  const lastWashDate = route.params.lastWashDate;
+  const [gasStation, setGasStation] = React.useState<boolean>(false);
   // const problemS: ProblemKey[] = route.params.problem;
 
   const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
@@ -45,8 +48,10 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
   };
 
   const handleSubmit = () => {
-    serviceCar && serviceCar(number, problems);
-    voronaMinus && voronaMinus(Number(value));
+    serviceCar && serviceCar(number, problems, !!wash.trim());
+    if (!gasStation) {
+      voronaMinus && voronaMinus(Number(value));
+    }
     shiftUpdate &&
       shiftUpdate({
         shiftId: shiftId ? shiftId : "0",
@@ -88,7 +93,22 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
           value={value}
           onChangeText={handleChangeValue}
         />
-        <Text style={styles.label}>Мойка</Text>
+        <View style={styles.checkbox}>
+          <CheckBox
+            disabled={false}
+            value={gasStation}
+            onValueChange={(value: boolean) => setGasStation(value)}
+          />
+          <Text style={styles.checkLabel}>Заправка с АЗС</Text>
+        </View>
+        <View style={styles.washTitle}>
+          <Text style={styles.label}>Мойка</Text>
+          {lastWashDate && (
+            <Text style={styles.lastWashDate}>
+              {dateFormat(new Date(lastWashDate), "dd.mm.yyyy", true)}
+            </Text>
+          )}
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Сумма"
@@ -138,12 +158,36 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: "15%",
   },
+  washTitle: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  lastWashDate: {
+    fontSize: 16,
+    marginTop: 26,
+    marginBottom: 10,
+    alignSelf: "flex-start",
+    marginLeft: "15%",
+  },
   input: {
     width: "100%",
     fontSize: 20,
     paddingLeft: "15%",
     borderBottomColor: "#333",
     borderBottomWidth: 2,
+  },
+  checkbox: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: "15%",
+    paddingTop: "4%",
+  },
+  checkLabel: {
+    paddingLeft: "3%",
+    fontSize: 17,
+    fontWeight: "500",
   },
   problem: {
     position: "absolute",

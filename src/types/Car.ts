@@ -4,6 +4,7 @@ export interface Car {
   number: string;
   model: Model;
   lastService: string;
+  lastWashDate: string;
   problems: ProblemKey[];
   isRepairing: boolean;
   comments: string;
@@ -14,4 +15,4 @@ export interface Problem {
   name: string;
 }
 
-export type ProblemKey = "D" | "A" | "F" | "W" | "C" | "M" | "EB" | "J";
+export type ProblemKey = "D" | "A" | "F" | "WT" | "C" | "M" | "EB" | "J";

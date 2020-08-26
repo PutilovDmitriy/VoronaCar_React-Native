@@ -12,6 +12,7 @@ import { updateShift } from "../redux/action/shift";
 const mapStateToProps = (state: AppState) => ({
   valueOil: state.voronaReducer.value,
   shiftId: state.shiftReducer.info.shiftId,
+  user: state.userReducer.info,
 });
 
 const mapDispatchToProps = (

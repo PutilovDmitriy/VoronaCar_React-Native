@@ -52,6 +52,7 @@ const Home: React.FC<HomeProps> = ({
               navigation.navigate("Car", {
                 title: item.number,
                 problem: item.problems,
+                lastWashDate: item.lastWashDate,
               });
             }}
           />

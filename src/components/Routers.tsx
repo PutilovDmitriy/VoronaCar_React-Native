@@ -12,6 +12,7 @@ import WorkShift from "./WorkShift";
 import { ProblemKey } from "../types/Car";
 import { ShiftUpdateInfo } from "../types/Shift";
 import { colorPurple } from "../const";
+import { Info } from "../types/UserInfo";
 
 interface RoutesProps {
   valueOil: number;
@@ -19,9 +20,14 @@ interface RoutesProps {
   getValueOil: () => void;
   voronaPlus: (payload: number) => void;
   voronaMinus: (payload: number) => void;
-  serviceCar: (numder: string, problems: ProblemKey[]) => void;
+  serviceCar: (
+    numder: string,
+    problems: ProblemKey[],
+    isWashed?: boolean
+  ) => void;
   shiftId: string;
   shiftUpdate: (info: ShiftUpdateInfo) => {};
+  user: Info;
 }
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -36,6 +42,7 @@ const Routes: React.FC<RoutesProps> = ({
   shiftId,
   shiftUpdate,
   voronaMinus,
+  user,
 }) => {
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
@@ -77,6 +84,7 @@ const Routes: React.FC<RoutesProps> = ({
             handleCloseDrawer,
             handleStopShift,
             valueOil,
+            user,
           })
         }
       >
