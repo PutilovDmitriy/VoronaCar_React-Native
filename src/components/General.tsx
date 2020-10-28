@@ -12,8 +12,6 @@ interface GeneralProps {
   getValueOil: () => void;
   loginSuccess: (info: Info) => void;
   logout: () => void;
-  userId: string;
-  shiftStart: (userId: string) => void;
   shiftId: string;
   shiftFinish: (shiftId: string) => void;
   setShiftId: (shiftId: string) => void;
@@ -22,16 +20,12 @@ interface GeneralProps {
 const General: React.FunctionComponent<GeneralProps> = ({
   authorized,
   getValueOil,
-  logout,
   loginSuccess,
-  shiftStart,
-  userId,
   shiftFinish,
   shiftId,
   setShiftId,
+  logout
 }) => {
-  const [isShift, setShift] = React.useState<boolean>(false);
-
   React.useEffect(() => {
     getValueOil();
   }, []);
@@ -58,10 +52,22 @@ const General: React.FunctionComponent<GeneralProps> = ({
       console.log("shiftID = " + value);
       if (value !== null) {
         setShiftId(value);
-        setShift(true);
       }
     } catch (e) {
       console.log("Ошибка проверки shiftId");
+    }
+  };
+
+  const handlerLogout = async () => {
+    try {
+      await AsyncStorage.removeItem("TOKEN");
+      const value = await AsyncStorage.getItem("TOKEN");
+      if (value == null) {
+        console.log("Токен удален");
+        return logout();
+      }
+    } catch (e) {
+      return console.log("Выход не удался");
     }
   };
 
@@ -70,18 +76,12 @@ const General: React.FunctionComponent<GeneralProps> = ({
     checkShiftId();
   }, []);
 
-  const handleStartShift = () => {
-    shiftStart(userId);
-    setShift(true);
-  };
-
   const handleStopShift = async () => {
     try {
       await AsyncStorage.removeItem("SHIFT_ID");
       const value = await AsyncStorage.getItem("SHIFT_ID");
       if (value == null) {
         console.log("ShiftId удален");
-        setShift(false);
         return shiftFinish(shiftId);
       }
     } catch (e) {
@@ -90,11 +90,7 @@ const General: React.FunctionComponent<GeneralProps> = ({
   };
 
   return authorized ? (
-    isShift ? (
-      <Routes handleStopShift={handleStopShift} />
-    ) : (
-      <WorkShift handleStartShift={handleStartShift} logout={logout} />
-    )
+    <Routes handleStopShift={handleStopShift} handlerLogout={handlerLogout}/>
   ) : (
     <AuthPage />
   );

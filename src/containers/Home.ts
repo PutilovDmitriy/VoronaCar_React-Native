@@ -16,6 +16,7 @@ const mapStateToProps = (state: AppState) => ({
   loading: state.carReducer.loading,
   error: state.carReducer.error,
   user: state.userReducer.info,
+  shiftActive: state.shiftReducer.active,
 });
 
 const mapDispatchToProps = (

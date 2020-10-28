@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useContext } from "react";
-import { View, StyleSheet, Modal, Text, RefreshControl } from "react-native";
+import React, { useCallback, useEffect, } from "react";
+import {View, StyleSheet, RefreshControl, FlatList} from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../types/RoutesParamList";
-import { FlatList } from "react-native-gesture-handler";
 import CarLine from "./CarLine";
 import { Car } from "../types/Car";
 import { Circle } from "react-native-animated-spinkit";
@@ -15,6 +14,7 @@ interface HomeProps {
   loading: boolean;
   error: any;
   getCarInfo: () => void;
+  shiftActive: boolean;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -22,6 +22,7 @@ const Home: React.FC<HomeProps> = ({
   carData,
   loading,
   getCarInfo,
+  shiftActive
 }) => {
   const [firstFetch, setFirstFetch] = React.useState<boolean>(true);
   const initFetch = useCallback(() => {
@@ -37,6 +38,10 @@ const Home: React.FC<HomeProps> = ({
     initFetch();
   };
 
+  const getUrl = () => {
+    return shiftActive ? 'Car' : 'CarInfo';
+  };
+
   return loading && firstFetch ? (
     <View style={styles.loading}>
       <Circle size={100} color={colorGreen} />
@@ -49,16 +54,14 @@ const Home: React.FC<HomeProps> = ({
           <CarLine
             carInfo={item}
             navigation={() => {
-              navigation.navigate("Car", {
+              navigation.navigate(getUrl(), {
                 car: item,
               });
             }}
           />
         )}
         keyExtractor={(item) => item.number}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={updateList} />
-        }
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={updateList} />}
       />
       <ModalOil />
     </View>

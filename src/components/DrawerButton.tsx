@@ -1,6 +1,5 @@
 import * as React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Image } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 
 interface IDrawerButtonProps {
   onPress: () => void;

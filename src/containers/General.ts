@@ -10,17 +10,15 @@ import { loginLogout, loginSuccess } from "../redux/action/user";
 
 const mapStateToProps = (state: AppState) => ({
   authorized: state.userReducer.authorized,
-  userId: state.userReducer.info.id,
   shiftId: state.shiftReducer.info.shiftId,
 });
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AppActionsType>
 ) => ({
+  logout: bindActionCreators(loginLogout, dispatch),
   getValueOil: bindActionCreators(voronaGetValue, dispatch),
   loginSuccess: bindActionCreators(loginSuccess, dispatch),
-  logout: bindActionCreators(loginLogout, dispatch),
-  shiftStart: bindActionCreators(startShift, dispatch),
   shiftFinish: bindActionCreators(finishShift, dispatch),
   setShiftId: bindActionCreators(shiftStart, dispatch),
 });

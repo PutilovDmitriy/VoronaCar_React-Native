@@ -3,6 +3,7 @@ import { urlCar, urlVorona } from "./../../const/index";
 import { Car, ProblemKey } from "./../../types/Car";
 import { AppActionsType } from "../../types/action";
 import { Dispatch } from "react";
+import {handlerSuccess} from "../../const/handlerResponse";
 
 export enum CarActions {
   CAR_BEGIN = "CAR_BEGIN",
@@ -49,15 +50,32 @@ export const getCarInfo = () => {
 
 export const serviceCar = (
   number: string,
-  problems: ProblemKey[],
-  comments: string,
+  problems: string[],
   isWashed?: boolean
 ) => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(carServiceBegin());
     const url = urlCar + "/services";
     return axios
-      .put(url, { number, problems, comments, isWashed })
+      .put(url, { number, problems, isWashed })
+      .then((res) => {
+        return dispatch(carUpdate(res.data.info));
+      })
+      .catch((error) => {
+        return dispatch(carFailure(error.response.data.message));
+      });
+  };
+};
+
+export const addProblem = (
+  number: string,
+  problems: string[],
+) => {
+  return (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(carServiceBegin());
+    const url = urlCar + "/update";
+    return axios
+      .put(url, { number, problems })
       .then((res) => {
         return dispatch(carUpdate(res.data.info));
       })

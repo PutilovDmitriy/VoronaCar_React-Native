@@ -9,8 +9,7 @@ type Context = {
   voronaMinus: (payload: number) => void;
   serviceCar: (
     numder: string,
-    problems: ProblemKey[],
-    comments: string,
+    problems: string[],
     isWashed?: boolean
   ) => void;
   voronaPlus: (payload: number) => void;

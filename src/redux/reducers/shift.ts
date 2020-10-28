@@ -9,6 +9,7 @@ const initialState: ShiftReducer = {
     value: 0,
     money: 0,
   },
+  active: false,
   loading: false,
   error: null,
 };
@@ -27,6 +28,7 @@ export const shiftReducer = (
       return {
         ...state,
         loading: false,
+        active: true,
         info: { shiftId: action.payload, carNumber: [], value: 0, money: 0 },
       };
     case ShiftActions.SHIFT_UPDATE:

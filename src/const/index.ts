@@ -1,18 +1,19 @@
 import { Model } from "./../types/Model";
-import { Problem, ProblemKey } from "../types/Car";
 
 //urls http
-
-export const urlUser = "https://pacific-cliffs-72324.herokuapp.com/auth/login";
-export const urlCar = "https://pacific-cliffs-72324.herokuapp.com/car";
-export const urlVorona =
-  "https://pacific-cliffs-72324.herokuapp.com/car/vorona";
-export const urlShift = "https://pacific-cliffs-72324.herokuapp.com/shift";
+const baseUrl = 'https://pacific-cliffs-72324.herokuapp.com';
+export const urlUser = `${baseUrl}/auth/login`;
+export const urlCar = `${baseUrl}/car`;
+export const urlVorona = `${baseUrl}/car/vorona`;
+export const urlShift = `${baseUrl}/shift`;
+export const urlServiceRecords = `${baseUrl}/service-record`;
 
 /// color
-export const colorGreen = "#4CD964";
+export const colorGreen = "#27AE60";
+export const colorGreenPressed = "#219653";
 export const colorBlack = "#262626";
 export const colorGrey = "#DADADA";
+export const colorDarkGrey = "#E0E0E0"
 export const colorDarkGreen = "#00C781";
 export const colorPurple = "#7D4CDB";
 export const colorRed = "#FF4040";
@@ -33,36 +34,3 @@ export const urlsLogo = (key: Model) => {
       return require("../../public/img/FreeCar.png");
   }
 };
-export const urlsProblem = (key: ProblemKey) => {
-  switch (key) {
-    case "D":
-      return require("../../public/img/documents.png");
-    case "A":
-      return require("../../public/img/doctor.png");
-    case "F":
-      return require("../../public/img/fire.png");
-    case "WT":
-      return require("../../public/img/warning.png");
-    case "C":
-      return require("../../public/img/coolant.png");
-    case "M":
-      return require("../../public/img/maslo.png");
-    case "EB":
-      return require("../../public/img/accum.png");
-    case "J":
-      return require("../../public/img/j.png");
-    default:
-      break;
-  }
-};
-
-export const problemsItem: Problem[] = [
-  { id: "D", name: "Документы" },
-  { id: "A", name: "Аптечка" },
-  { id: "F", name: "Огнетушитель" },
-  { id: "WT", name: "Аварийный знак" },
-  { id: "C", name: "Тосол" },
-  { id: "M", name: "Масло" },
-  { id: "EB", name: "Аккумулятор" },
-  { id: "J", name: "Дворники" },
-];

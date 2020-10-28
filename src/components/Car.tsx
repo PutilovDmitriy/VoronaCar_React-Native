@@ -1,49 +1,59 @@
-import React from "react";
-import { Text, View, StyleSheet, TextInput, Image, Button } from "react-native";
-import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import CheckBox from "@react-native-community/checkbox";
-import { urlsProblem, problemsItem, colorGreen, dateFormat } from "../const";
-import { ProblemKey } from "../types/Car";
-import RouterContext from "../contexts/RouterContext";
+import React, {useState} from "react";
 import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
-import ModalComments from "./ModalComments";
-import { RouteProp } from "@react-navigation/native";
-import { RoutesParamList } from "../types/RoutesParamList";
+  Text,
+  View,
+  StyleSheet,
+  Animated,
+  Easing,
+  TouchableOpacity, ScrollView, Pressable
+} from "react-native";
+import CheckBox from "@react-native-community/checkbox";
+import {colorBlack, colorDarkGrey, colorGreen, colorGrey, dateFormat} from "../const";
+import RouterContext from "../contexts/RouterContext";
+import {RouteProp} from "@react-navigation/native";
+import {RoutesParamList} from "../types/RoutesParamList";
+import UiButton from "./ui/Button";
+import UiInput from "./ui/Input";
+import TextModal from "./TextModal";
 
 interface IAppProps {
   navigation: any;
   route: RouteProp<RoutesParamList, "Car">;
 }
 
-const Car: React.FC<IAppProps> = ({ navigation, route }) => {
+const Car: React.FC<IAppProps> = ({navigation, route}) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle:
         route.params.car.number === "" ? "Car" : route.params.car.number,
     });
-    setProblems(route.params.car.problems);
-    setComments(route.params.car.comments);
+    setProblems(route.params.car.problems.map((problem, idx) => ({ id: idx, text: problem, resolved: false })));
   }, [navigation, route.params.car]);
 
-  const [value, setValue] = React.useState<string>("");
-  const [wash, setWash] = React.useState<string>("");
-  const [problems, setProblems] = React.useState<ProblemKey[]>([]);
+  const [valueOil, setValueOil] = useState<string>("");
+  const [wash, setWash] = useState<string>("");
+  const [problems, setProblems] = useState<{id: number, text: string, resolved: boolean}[]>([]);
   const number: string = route.params.car.number;
   const lastWashDate = route.params.car.lastWashDate;
-  const [gasStation, setGasStation] = React.useState<boolean>(false);
-  const [comments, setComments] = React.useState("");
-  const [isModalComments, setModalCommenst] = React.useState(false);
+  const [gasStation, setGasStation] = useState<boolean>(false);
+  const [showProblems, setShowProblems] = useState<boolean>(false);
+  const [spinValue,] = useState(new Animated.Value(0));
+  const [isShowModal, setShowModal] = useState(false);
+  const [newProblem, setNewProblem] = useState('');
+  const [washFromVorona, setWashFromVorona] = useState(false);
 
-  const { serviceCar, shiftId, shiftUpdate, voronaMinus } = React.useContext(
+  const {serviceCar, shiftId, shiftUpdate, voronaMinus} = React.useContext(
     RouterContext
   );
 
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg']
+  });
+
   const handleChangeValue = (text: string) => {
     if (text !== "0" && !isNaN(Number(text))) {
-      setValue(text);
+      setValueOil(text);
     }
   };
 
@@ -52,123 +62,139 @@ const Car: React.FC<IAppProps> = ({ navigation, route }) => {
       setWash(text);
     }
   };
-
-  const handleChangeProblems = (items: ProblemKey[]) => {
-    setProblems(items);
+  const toggleProblems = () => {
+    setShowProblems(!showProblems);
+    Animated.timing(
+      spinValue,
+      {
+        toValue: showProblems ? 0 : 1,
+        duration: 300,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }
+    ).start();
   };
 
   const handleSubmit = () => {
-    serviceCar && serviceCar(number, problems, comments, !!wash.trim());
+    const problemsData = problems
+      .filter((problem) => !problem.resolved)
+      .map((problem) => problem.text);
+    serviceCar && serviceCar(number, problemsData, !!wash.trim() || washFromVorona);
     if (!gasStation) {
-      voronaMinus && voronaMinus(Number(value));
+      voronaMinus && voronaMinus(Number(valueOil));
     }
     shiftUpdate &&
-      shiftUpdate({
-        shiftId: shiftId ? shiftId : "0",
-        carNumber: number,
-        value: value,
-        money: wash,
-      });
+    shiftUpdate({
+      shiftId: shiftId ? shiftId : "0",
+      carNumber: number,
+      value: Number(valueOil),
+      fromGS: gasStation,
+      money: wash,
+    });
     navigation.goBack();
   };
 
-  const selectedText = () => {
-    const number = problems.length;
-    const titles = ["проблема", "проблемы", "проблем"];
-    let cases = [2, 0, 1, 1, 1, 2];
-    return titles[
-      number % 100 > 4 && number % 100 < 20
-        ? 2
-        : cases[number % 10 < 5 ? number % 10 : 5]
-    ];
+  const openProblemModal = () => {
+    setNewProblem('');
+    setShowModal(true);
+  };
+
+  const getIdProblem = (): number => {
+    let id = 1;
+    problems.forEach((problem) => {
+      if (id <= problem.id) {
+        id = problem.id + 1;
+      }
+    });
+    return id;
+  };
+
+
+  const handlerSaveNewProblem = () => {
+    setShowModal(false);
+    if (newProblem) {
+      const id = getIdProblem();
+      problems.push({ id: id, text: newProblem, resolved: false});
+    }
+    setNewProblem('');
+  };
+
+  const handlerResolveProblem = (id: number) => {
+    const editProblem = problems.find((probl) => probl.id == id);
+    if (editProblem) {
+      const idx = problems.findIndex((probl) => probl.id == id);
+      editProblem.resolved = !editProblem.resolved;
+      const newProblems = [...problems.slice(0, idx), editProblem, ...problems.slice(idx + 1)];
+      setProblems(newProblems);
+    }
+  };
+
+  const changeWashFromVorona = () => {
+    setWashFromVorona(!washFromVorona);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.problem}>
-        {problems.map((item, index) => (
-          <Image
-            key={index}
-            source={urlsProblem(item)}
-            style={{ width: 40, height: 40 }}
-          />
-        ))}
-      </View>
-      <View style={styles.form}>
-        <Text style={styles.label}>Заправка</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Литры"
-          keyboardType="number-pad"
-          value={value}
-          onChangeText={handleChangeValue}
-        />
+    <ScrollView indicatorStyle="black" contentContainerStyle={styles.container} keyboardDismissMode="on-drag">
+      <Text style={[styles.wrapper, styles.h2]}>Обслуживание автомобиля</Text>
+      <UiInput title="Заправка" onChangeText={handleChangeValue} value={valueOil} descriptor="Л" placeholder="0.0"/>
+      <View style={styles.wrapperLeft}>
         <View style={styles.checkbox}>
           <CheckBox
             disabled={false}
             value={gasStation}
             onValueChange={(value: boolean) => setGasStation(value)}
-          />
-          <Text style={styles.checkLabel}>Заправка с АЗС</Text>
-        </View>
-        <View style={styles.washTitle}>
-          <Text style={styles.label}>Мойка</Text>
-          {lastWashDate && (
-            <Text style={styles.lastWashDate}>
-              {dateFormat(new Date(lastWashDate), "dd.mm.yyyy", true)}
-            </Text>
-          )}
-        </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Сумма"
-          keyboardType="number-pad"
-          value={wash}
-          onChangeText={handleChangeWash}
-        />
-        <View style={styles.select}>
-          <SectionedMultiSelect
-            items={problemsItem}
-            uniqueKey="id"
-            selectText="Укажи проблемы..."
-            onSelectedItemsChange={handleChangeProblems}
-            hideSearch={true}
-            selectedItems={problems}
-            selectedText={selectedText()}
-            confirmText="Подтвердить"
-            colors={{ primary: colorGreen }}
-          />
-        </View>
-        <View style={styles.label}>
-          <TouchableOpacity
-            activeOpacity={0.4}
-            onPress={() => setModalCommenst(true)}
-          >
-            <View style={styles.lineComments}>
-              <Text style={styles.lableComments}>Комментарий:</Text>
-              <Image
-                source={require("../../public/img/edit.png")}
-                style={{ width: 30, height: 30 }}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={{ alignSelf: "flex-start", fontSize: 16 }}>
-          {comments}
-        </Text>
-        <View style={styles.button}>
-          <Button title="Отправить" onPress={handleSubmit} color={colorGreen} />
+            tintColors={{true: colorGreen, false: colorGrey}}/>
+          <Text style={styles.h3}>Заправили на АЗС</Text>
         </View>
       </View>
-      <ModalComments
-        isModal={isModalComments}
-        closeModal={() => setModalCommenst(false)}
-        comments={comments}
-        handleChangeComments={(text) => {
-          setComments(text);
-        }}
-      />
-    </View>
+      <UiInput title="Мойка" onChangeText={handleChangeWash} value={wash} descriptor="РУБ." placeholder="0.0"/>
+      <Pressable
+        onLongPress={changeWashFromVorona}
+        style={washFromVorona ? [styles.thinButton, { backgroundColor: colorGreen }] : styles.thinButton}
+      >
+        <Text>Мойка из ведра</Text>
+      </Pressable>
+    {lastWashDate && (
+        <View style={styles.wrapperLeft}>
+          <Text style={styles.h3}>Дата последней мойки:</Text>
+          <Text style={styles.h3}>
+            {dateFormat(new Date(lastWashDate), "dd.mm.yyyy", true)}
+          </Text>
+        </View>
+      )}
+      <TouchableOpacity onPress={toggleProblems} activeOpacity={1} style={{width: "100%"}}>
+          <View style={[styles.wrapper, styles.problems]}>
+             <Text style={styles.label}>ПРОБЛЕМЫ</Text>
+        <Animated.Image
+              style={[styles.arrow, {transform: [{rotate: spin}]}]}
+              source={require("../../public/img/arrow-down.png")}
+        />
+          </View>
+      </TouchableOpacity>
+      {showProblems && (
+        <View style={styles.problemsContainer}>
+          <Pressable style={[styles.thinButton, { backgroundColor: colorGreen }]} onPress={openProblemModal}>
+            <Text style={styles.label}>Добавить проблему</Text>
+          </Pressable>
+          <View>
+            { problems.map((problem) =>
+            <TouchableOpacity key={problem.id} onPress={() => handlerResolveProblem(problem.id)}>
+              <Text style={[styles.problem, problem.resolved && styles.problemResolved]}>— {problem.text}</Text>
+            </TouchableOpacity>) }
+          </View>
+          <TextModal
+            isShowModal={isShowModal}
+            handlerCloseModal={() => setShowModal(false)}
+            text={newProblem}
+            onChangeText={text => setNewProblem(text)}
+            handlerSaveModal={handlerSaveNewProblem}
+            title={'Проблема'}
+            buttonTitle={'Добавить'}/>
+        </View>
+
+      )}
+      <UiButton title="Сохранить" onPress={handleSubmit} style={styles.button}/>
+    </ScrollView>
   );
 };
 
@@ -177,27 +203,42 @@ export default Car;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "100%",
-    justifyContent: "center",
+    minHeight: '100%',
+    justifyContent: "flex-start",
     alignItems: "center",
+    paddingTop: 40,
+    paddingBottom: 100
   },
-  form: {
-    width: "95%",
-    alignItems: "center",
-    marginTop: -70,
+  button: {
+    position: "absolute",
+    bottom: 0
   },
-  label: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 25,
-    marginBottom: 10,
-    alignSelf: "flex-start",
-    marginLeft: "15%",
-  },
-  washTitle: {
+  wrapper: {
+    height: 80,
     width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  wrapperLeft: {
+    height: 80,
+    width: "100%",
+    marginLeft: 60,
+    justifyContent: "center"
+  },
+  h2: {
+    fontSize: 16,
+    fontWeight: "bold",
+    paddingHorizontal: 20,
+    height: 40,
+  },
+  checkbox: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  h3: {
+    paddingLeft: "3%",
+    fontSize: 16,
+    fontWeight: "500",
   },
   lastWashDate: {
     fontSize: 16,
@@ -206,53 +247,40 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: "15%",
   },
-  input: {
-    width: "100%",
-    fontSize: 20,
-    paddingLeft: "15%",
-    borderBottomColor: "#333",
-    borderBottomWidth: 2,
+  arrow: {
+    height: 20,
+    width: 20
   },
-  checkbox: {
-    width: "100%",
+  problems: {
+    justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: "15%",
-    paddingTop: "4%",
+    backgroundColor: colorDarkGrey,
+    paddingHorizontal: 20,
   },
-  checkLabel: {
-    paddingLeft: "3%",
-    fontSize: 17,
-    fontWeight: "500",
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   problem: {
-    position: "absolute",
-    top: 10,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    width: "80%",
-    height: 50,
-  },
-  select: {
-    marginTop: 25,
-    width: "100%",
-    borderWidth: 2,
-    borderColor: "#333",
-  },
-  lineComments: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center",
-    alignSelf: "flex-start",
-  },
-  lableComments: {
-    fontSize: 20,
+    paddingVertical: 10,
+    fontSize: 16,
     fontWeight: "bold",
-    marginRight: 15,
+    color: colorBlack
   },
-  button: {
-    marginTop: 20,
-    width: "100%",
+  problemResolved: {
+    color: colorDarkGrey,
+    textDecorationLine: "line-through",
+  },
+  thinButton: {
+    backgroundColor: colorGrey,
+    width: '100%',
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  problemsContainer: {
+    width: '100%',
+    alignItems: 'center'
   },
 });

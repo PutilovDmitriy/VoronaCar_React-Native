@@ -8,13 +8,13 @@ import DrawerPage from "./DrawerPage";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout";
 import RouterContext from "../contexts/RouterContext";
 import DrawerButton from "./DrawerButton";
-import { ProblemKey } from "../types/Car";
 import { ShiftUpdateInfo } from "../types/Shift";
 import { colorPurple } from "../const";
 import { Info } from "../types/UserInfo";
-import { Image } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import CarInfo from "./CarInfo";
+import Events from "./Events";
+import DropDownMenu from "./DropDownMenu";
+import ServiceRecords from "./ServiceRecords";
 
 interface RoutesProps {
   valueOil: number;
@@ -24,13 +24,17 @@ interface RoutesProps {
   voronaMinus: (payload: number) => void;
   serviceCar: (
     numder: string,
-    problems: ProblemKey[],
-    comments: string,
+    problems: string[],
     isWashed?: boolean
   ) => void;
   shiftId: string;
   shiftUpdate: (info: ShiftUpdateInfo) => {};
   user: Info;
+  shiftActive: boolean;
+  handlerLogout: () => void;
+  shiftStart: (userId: string) => void;
+  addCarProblem: (number: string, problems: string[]) => void;
+  shiftLoading: boolean;
 }
 
 const Stack = createStackNavigator<RoutesParamList>();
@@ -46,7 +50,13 @@ const Routes: React.FC<RoutesProps> = ({
   shiftUpdate,
   voronaMinus,
   user,
+  shiftStart,
+  handlerLogout,
+  shiftActive,
+  addCarProblem,
+  shiftLoading
 }) => {
+  const navigationRef = React.useRef(null);
   const [isModalOil, setModalOil] = React.useState<boolean>(false);
 
   const handleOpenModalOil = () => {
@@ -62,6 +72,11 @@ const Routes: React.FC<RoutesProps> = ({
   };
 
   const handlePlusOil = (value: number) => {};
+
+  const handlerNavigate = (name: string, params?: any ) => {
+    navigationRef.current?.navigate(name, params);
+    handleCloseDrawer();
+  };
 
   return (
     <RouterContext.Provider
@@ -88,15 +103,20 @@ const Routes: React.FC<RoutesProps> = ({
             handleStopShift,
             valueOil,
             user,
+            handlerLogout,
+            shiftStart,
+            shiftActive,
+            handlerNavigate,
+            shiftLoading
           })
         }
       >
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Home"
               component={Home}
-              options={{
+              options={({ navigation }) => ({
                 headerTitleAlign: "center",
                 headerTitle: "VoronaCar",
                 headerTitleStyle: {
@@ -112,12 +132,12 @@ const Routes: React.FC<RoutesProps> = ({
                     }}
                   />
                 ),
-              }}
+              })}
             />
             <Stack.Screen
               name="Car"
               component={Car}
-              options={({ navigation, route }) => ({
+              options={({ route }) => ({
                 headerTitleAlign: "center",
                 headerTitle: "A000AA ",
                 headerTitleStyle: {
@@ -127,28 +147,51 @@ const Routes: React.FC<RoutesProps> = ({
                   backgroundColor: colorPurple,
                 },
                 headerRight: () => (
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={() => {
-                      navigation.navigate("CarInfo", {
-                        car: route.params.car,
-                      });
-                    }}
-                  >
-                    <Image
-                      source={require("../../public/img/info.png")}
-                      style={{ marginRight: 10 }}
-                    />
-                  </TouchableOpacity>
+                  <DropDownMenu handlerNavigate={handlerNavigate} car={route.params.car} needShowInfo={true}/>
                 ),
               })}
             />
             <Stack.Screen
               name="CarInfo"
               component={CarInfo}
-              options={({ navigation }) => ({
+              options={({ route }) => ({
                 headerTitleAlign: "center",
                 headerTitle: "A000AA ",
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerStyle: {
+                  backgroundColor: colorPurple,
+                },
+                headerRight: () => (
+                  <DropDownMenu
+                    handlerNavigate={handlerNavigate}
+                    car={route.params.car}
+                    needShowInfo={false}
+                    addProblem={addCarProblem}/>
+                ),
+              })}
+            />
+            <Stack.Screen
+                name="AddEvents"
+                component={Events}
+                options={() => ({
+                headerTitleAlign: "center",
+                headerTitle: "Новое событие ",
+                headerTitleStyle: {
+                    color: "white",
+                },
+                headerStyle: {
+                    backgroundColor: colorPurple,
+                },
+            })}
+            />
+            <Stack.Screen
+              name="DownloadServiceRecords"
+              component={ServiceRecords}
+              options={() => ({
+                headerTitleAlign: "center",
+                headerTitle: "Отчет",
                 headerTitleStyle: {
                   color: "white",
                 },

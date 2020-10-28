@@ -1,9 +1,8 @@
 import * as React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import RouterContext from "../contexts/RouterContext";
-import { colorBlack, colorRed } from "../const";
+import {View, StyleSheet, Text, Image, Pressable, TouchableHighlight} from "react-native";
+import { colorGreen, colorRed} from "../const";
 import { Info } from "../types/UserInfo";
+import {Flow} from "react-native-animated-spinkit";
 
 interface IDrawerPageProps {
   isModalOil: boolean;
@@ -12,6 +11,11 @@ interface IDrawerPageProps {
   handleStopShift: () => void;
   valueOil: number;
   user: Info;
+  shiftActive: boolean;
+  handlerLogout: () => void;
+  shiftStart: (userId: string) => void;
+  handlerNavigate: (name: string) => void;
+  shiftLoading: boolean;
 }
 
 const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
@@ -21,16 +25,26 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
   handleStopShift,
   valueOil,
   user,
+  handlerLogout,
+  shiftStart,
+  shiftActive,
+  handlerNavigate,
+  shiftLoading
 }) => {
+
   const handlePressOilBlock = () => {
     handleOpenModalOil();
     handleCloseDrawer();
   };
 
+  const handlerStartShift = () => {
+    shiftStart(user.id);
+  };
+
   return (
-    <View style={styles.contaner}>
+    <View style={styles.container}>
       <View style={styles.topBlock}></View>
-      <View style={styles.userLine}>
+      <Pressable style={styles.userLine} onPress={() => handlerNavigate('Home')}>
         <View style={styles.avatar}>
           <Image
             source={require("../../public/img/defaultPet.png")}
@@ -41,7 +55,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
           <Text style={styles.text}>{user.name}</Text>
           <Text style={styles.text}>{user.login}</Text>
         </View>
-      </View>
+      </Pressable>
       <TouchableHighlight onPress={handlePressOilBlock}>
         <View style={styles.infoLine}>
           <View style={styles.logoBlock}>
@@ -65,13 +79,54 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
           </View>
         </View>
       </TouchableHighlight>
-      <View style={styles.escape}>
-        <TouchableHighlight
-          style={styles.buttonEscape}
-          onPress={handleStopShift}
-        >
-          <Text style={styles.textCategory}>Завершить смену</Text>
-        </TouchableHighlight>
+      <TouchableHighlight onPress={() => handlerNavigate('AddEvents') }>
+        <View style={styles.infoLine}>
+          <View style={styles.textBlock}>
+            <Text style={styles.textCategory}>
+              Добавить событие
+            </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+      <Pressable onPress={() => handlerNavigate('DownloadServiceRecords') }>
+        <View style={styles.infoLine}>
+          <View style={styles.textBlock}>
+            <Text style={styles.textCategory}>
+              Скачать отчет
+            </Text>
+          </View>
+        </View>
+      </Pressable>
+      <View style={styles.bottom}>
+        <View>
+          {shiftActive ? (
+              !shiftLoading ? (
+                <Pressable
+                  style={styles.buttonStopShift}
+                  onPress={handleStopShift}
+              >
+                <Text style={styles.textCategory}>Завершить смену</Text>
+              </Pressable>
+              ) : <Flow size={30} color="#fff" />
+          ) : (
+            !shiftLoading ? (
+              <Pressable
+                  style={styles.buttonStartShift}
+                  onPress={handlerStartShift}
+              >
+                  <Text style={styles.textCategory}>Начать смену</Text>
+              </Pressable>
+              ) : <Flow size={30} color="#fff" />
+          )}
+        </View>
+        <View>
+          <TouchableHighlight
+              style={styles.infoLine}
+              onPress={handlerLogout}
+          >
+            <Text style={styles.textCategory}>Сменить аккаунт</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     </View>
   );
@@ -80,7 +135,7 @@ const DrawerPage: React.FunctionComponent<IDrawerPageProps> = ({
 export default DrawerPage;
 
 const styles = StyleSheet.create({
-  contaner: {
+  container: {
     flexDirection: "column",
     backgroundColor: "#000",
     height: "100%",
@@ -115,7 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   infoLine: {
-    marginTop: 10,
+    marginTop: 30,
     flexDirection: "row",
     height: 50,
     backgroundColor: "#000",
@@ -139,13 +194,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
   },
-  escape: {
+  bottom: {
     position: "absolute",
     bottom: 30,
     width: "100%",
     alignItems: "center",
   },
-  buttonEscape: {
+  buttonStopShift: {
     height: 50,
     width: 250,
     justifyContent: "center",
@@ -153,4 +208,19 @@ const styles = StyleSheet.create({
     backgroundColor: colorRed,
     borderRadius: 10,
   },
+  buttonStartShift: {
+    height: 50,
+    width: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colorGreen,
+    borderRadius: 10,
+  },
+  logout: {
+    height: '100%',
+    width: '100%',
+    marginBottom: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });

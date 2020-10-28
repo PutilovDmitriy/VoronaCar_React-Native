@@ -5,18 +5,18 @@ export interface Car {
   model: Model;
   lastService: string;
   lastWashDate: string;
-  problems: ProblemKey[];
+  problems: string[];
   isRepairing: boolean;
   comments: string;
   info: CarInfo;
+  events: IEvent[];
 }
 
-export interface Problem {
-  id: ProblemKey;
-  name: string;
+export interface IEvent {
+  mileage: number,
+  date: string,
+  text: string,
 }
-
-export type ProblemKey = "D" | "A" | "F" | "WT" | "C" | "M" | "EB" | "J";
 
 export interface CarInfo {
   VIN: string;

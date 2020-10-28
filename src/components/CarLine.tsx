@@ -1,9 +1,9 @@
 import React from "react";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { View, StyleSheet, Text, Animated, Image } from "react-native";
+import {StyleSheet, Pressable} from "react-native";
 import SwipeWrapper from "./SwipeWrapper";
 import { Car } from "../types/Car";
 import CarLineInfo from "./CarLineInfo";
+import {colorGrey} from "../const";
 
 interface CarLineProps {
   carInfo: Car;
@@ -16,14 +16,12 @@ const CarLine: React.FunctionComponent<CarLineProps> = ({
 }) => {
   return (
     <SwipeWrapper problems={carInfo.problems} number={carInfo.number}>
-      <TouchableHighlight
-        underlayColor="#ccc"
-        activeOpacity={1}
-        style={styles.container}
+      <Pressable
+        style={(state) => state.pressed ? [styles.container, { backgroundColor: colorGrey }] : styles.container}
         onPress={navigation}
       >
         <CarLineInfo carInfo={carInfo} />
-      </TouchableHighlight>
+      </Pressable>
     </SwipeWrapper>
   );
 };

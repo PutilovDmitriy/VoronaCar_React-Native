@@ -55,12 +55,10 @@ export const startShift = (userId: string) => {
 export const updateShift = (info: ShiftUpdateInfo) => {
   return (dispatch: Dispatch<AppActionsType>) => {
     dispatch(shiftBegin());
-    console.log(info);
     const url = urlShift + "/update";
     return axios
       .put(url, info)
       .then((res) => {
-        console.log(res.data.message);
         return dispatch(shiftUpdate(info));
       })
       .catch((error) => {

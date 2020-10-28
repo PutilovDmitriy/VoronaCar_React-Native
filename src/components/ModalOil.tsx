@@ -29,7 +29,7 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
       transparent={true}
       onRequestClose={handleCloseModalOil}
     >
-      <View style={styles.contaner}>
+      <View style={styles.container}>
         <View style={styles.content}>
           <Text style={styles.text}>Объем заправки</Text>
           <TextInput
@@ -57,7 +57,7 @@ const ModalOil: React.FunctionComponent<IModalOilProps> = () => {
 export default ModalOil;
 
 const styles = StyleSheet.create({
-  contaner: {
+  container: {
     width: "100%",
     height: "100%",
     alignItems: "center",
