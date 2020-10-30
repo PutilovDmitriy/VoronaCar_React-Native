@@ -56,7 +56,7 @@ const Events: React.FunctionComponent<IEvents> = ({ navigation }) => {
 
     const handlerSubmit = () => {
         if (date && text) {
-            const event: IEvents = { mileage: mileage, date: date, text: text };
+            const event: IEvents = { mileage: mileage, date: date.toISOString(), text: text };
             axios.post(`${urlCar}/add-events`, { number: number, event: event })
               .then((res) => handlerSuccess(
                 navigation,
