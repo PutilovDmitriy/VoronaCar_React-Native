@@ -26,12 +26,21 @@ const Home: React.FC<HomeProps> = ({
 }) => {
   const [firstFetch, setFirstFetch] = React.useState<boolean>(true);
   const initFetch = useCallback(() => {
-    getCarInfo();
+    getCarInfoAndCheck();
   }, [getCarInfo]);
 
   useEffect(() => {
     initFetch();
   }, [initFetch]);
+
+  const getCarInfoAndCheck = () => {
+    getCarInfo();
+    setTimeout(() => {
+      if (loading) {
+        getCarInfoAndCheck();
+      }
+    }, 10000)
+  };
 
   const updateList = () => {
     setFirstFetch(false);
