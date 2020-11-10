@@ -34,7 +34,7 @@ const ServiceRecords: React.FunctionComponent<IServiceRecordsProps> = ({}) => {
 
   const handlerSubmit = () => {
     if (dateStart && dateEnd) {
-      const url = `${urlServiceRecords}/?start=${dateStart}&end=${dateEnd}&number=${number}`;
+      const url = `${urlServiceRecords}/?start=${dateStart.toISOString()}&end=${dateEnd.toISOString()}&number=${number}`;
       downloadFile(url, 'Отчет обслуживания')
     }
   };

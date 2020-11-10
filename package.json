@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "server": "nodemon server.js --prefix server"
+    "server": "nodemon server.js --prefix server",
+    "build:android": "expo build:android -t apk"
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.6",

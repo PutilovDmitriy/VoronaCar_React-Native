@@ -7,7 +7,6 @@ import {
   Easing,
   TouchableOpacity, ScrollView, Pressable
 } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
 import {colorBlack, colorDarkGrey, colorGreen, colorGrey, dateFormat} from "../const";
 import RouterContext from "../contexts/RouterContext";
 import {RouteProp} from "@react-navigation/native";
@@ -133,20 +132,20 @@ const Car: React.FC<IAppProps> = ({navigation, route}) => {
     setWashFromVorona(!washFromVorona);
   };
 
+  const changeGasStation = () => {
+    setGasStation(!gasStation);
+  }
+
   return (
     <ScrollView indicatorStyle="black" contentContainerStyle={styles.container} keyboardDismissMode="on-drag">
       <Text style={[styles.wrapper, styles.h2]}>Обслуживание автомобиля</Text>
       <UiInput title="Заправка" onChangeText={handleChangeValue} value={valueOil} descriptor="Л" placeholder="0.0"/>
-      <View style={styles.wrapperLeft}>
-        <View style={styles.checkbox}>
-          <CheckBox
-            disabled={false}
-            value={gasStation}
-            onValueChange={(value: boolean) => setGasStation(value)}
-            tintColors={{true: colorGreen, false: colorGrey}}/>
-          <Text style={styles.h3}>Заправили на АЗС</Text>
-        </View>
-      </View>
+      <Pressable
+          onLongPress={changeGasStation}
+          style={gasStation ? [styles.thinButton, { backgroundColor: colorGreen }] : styles.thinButton}
+      >
+        <Text>Заправка с АЗС</Text>
+      </Pressable>
       <UiInput title="Мойка" onChangeText={handleChangeWash} value={wash} descriptor="РУБ." placeholder="0.0"/>
       <Pressable
         onLongPress={changeWashFromVorona}
@@ -230,10 +229,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingHorizontal: 20,
     height: 40,
-  },
-  checkbox: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   h3: {
     paddingLeft: "3%",
